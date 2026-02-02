@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://053l04ddujqf"]
+
+[ext_resource type="Texture2D" uid="uid://c0xbvrjmptgp" path="res://assets/sprites/caves/doors_lever_chest_animation.png" id="2_f0g6q"]
+[ext_resource type="Script" uid="uid://bv6jy0hfair0e" path="res://scripts/interactive_objects/door.gd" id="2_jvl4v"]
+[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/triggers/InteractiveTriggerArea.gd" id="3_f0g6q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f0g6q"]
+size = Vector2(26, 10)
+
+[node name="Door" type="StaticBody2D"]
+script = ExtResource("2_jvl4v")
+
+[node name="DoorsLeverChestAnimation" type="Sprite2D" parent="."]
+position = Vector2(1, -14)
+texture = ExtResource("2_f0g6q")
+region_enabled = true
+region_rect = Rect2(35, 16, 27, 31)
+
+[node name="InteractiveTriggerArea" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 32
+script = ExtResource("3_f0g6q")
+metadata/_custom_type_script = "uid://b2g13emyhc2y1"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -4)
+shape = SubResource("RectangleShape2D_f0g6q")
+
+[connection signal="interacted" from="InteractiveTriggerArea" to="." method="_on_interactive_trigger_area_interacted"]

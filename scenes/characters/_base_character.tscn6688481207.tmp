@@ -1,0 +1,178 @@
+[gd_scene load_steps=23 format=3 uid="uid://bcx0grd4vk3ex"]
+
+[ext_resource type="Script" uid="uid://lwdibe28ijve" path="res://scripts/componets/MovementComponent.gd" id="1_d5ey5"]
+[ext_resource type="Script" uid="uid://cn2kmhuprughx" path="res://addons/game_state_saver/game_state_helper.gd" id="1_uutqg"]
+[ext_resource type="Script" uid="uid://bwn7rr7jmh5iw" path="res://scripts/componets/LookComponent.gd" id="2_vr7r3"]
+[ext_resource type="Script" uid="uid://ca2ba666vhmsi" path="res://scripts/componets/RepulsionComponent.gd" id="4_fbjc0"]
+[ext_resource type="Script" uid="uid://cwwrx8ghgpn0x" path="res://scripts/ui/focus_visual.gd" id="5_wm3hn"]
+[ext_resource type="Script" uid="uid://c8s66gdl5sumg" path="res://scripts/componets/UpgradesComponent.gd" id="6_vajux"]
+[ext_resource type="Script" uid="uid://dylycjrg5d4q8" path="res://scripts/ui/status_effects_visual.gd" id="7_b3tjq"]
+[ext_resource type="Script" uid="uid://b1f6r67gwp27w" path="res://scripts/componets/CombatManagerComponent.gd" id="7_ff53k"]
+[ext_resource type="Script" uid="uid://dxyamevhn0x1y" path="res://scripts/stats/DamageStat.gd" id="8_b3tjq"]
+[ext_resource type="Script" uid="uid://bwf2tw11gun68" path="res://scripts/componets/InventoryComponent.gd" id="8_ff53k"]
+[ext_resource type="PackedScene" uid="uid://c046k0pc02be8" path="res://scenes/ui/health_bar.tscn" id="8_ljdub"]
+[ext_resource type="Script" uid="uid://6kqamro8x74q" path="res://scripts/ui/look_visual.gd" id="9_8y1r3"]
+[ext_resource type="Texture2D" uid="uid://bb76dl3aocsjo" path="res://addons/ui_extensions/dropdown/Arrow.svg" id="9_fydwy"]
+[ext_resource type="Script" uid="uid://c1pa5xfc00ghn" path="res://scripts/stats/HealthStat.gd" id="10_8j211"]
+[ext_resource type="Script" uid="uid://b8swwrqsspaai" path="res://scripts/areas/HeartBox.gd" id="11_wm3hn"]
+[ext_resource type="Texture2D" uid="uid://diykdflp4gsgg" path="res://assets/sprites/shadow.png" id="12_xgiot"]
+[ext_resource type="Script" uid="uid://cbcyyrjmcj81j" path="res://scripts/componets/PlayerFocusTargetComponent.gd" id="13_erwmk"]
+[ext_resource type="Script" uid="uid://c5mgtdi0upws1" path="res://scripts/componets/StatusEffectsFactory.gd" id="16_n8kwc"]
+[ext_resource type="Script" uid="uid://cvjksxmvkt3wp" path="res://scripts/componets/DeathComponent.gd" id="19_8j211"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn3lg"]
+radius = 4.0
+height = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wm3hn"]
+radius = 5.0
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_8j211"]
+
+[node name="BaseCharacter" type="CharacterBody2D" groups=["Character"]]
+collision_layer = 2
+
+[node name="GameStateHelper" type="Node" parent="."]
+script = ExtResource("1_uutqg")
+save_properties = Array[String](["global_position"])
+metadata/_custom_type_script = "uid://cn2kmhuprughx"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_rn3lg")
+
+[node name="HeartBox" type="Area2D" parent="." node_paths=PackedStringArray("health", "status_effects_manager")]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("11_wm3hn")
+health = NodePath("../StatsContainer/HealthStat")
+status_effects_manager = NodePath("../StatusEffectsManager")
+metadata/_custom_type_script = "uid://b8swwrqsspaai"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeartBox"]
+shape = SubResource("CircleShape2D_wm3hn")
+debug_color = Color(0.6813975, 0.5015973, 0.1126403, 0.41960785)
+
+[node name="Visualization" type="Node2D" parent="."]
+
+[node name="LookVisual" type="Marker2D" parent="Visualization" node_paths=PackedStringArray("look")]
+position = Vector2(0, -3)
+script = ExtResource("9_8y1r3")
+look = NodePath("../../Look")
+
+[node name="GameStateHelper" type="Node" parent="Visualization/LookVisual"]
+script = ExtResource("1_uutqg")
+save_properties = Array[String](["rotation"])
+metadata/_custom_type_script = "uid://cn2kmhuprughx"
+
+[node name="Sprite2D" type="Sprite2D" parent="Visualization/LookVisual"]
+position = Vector2(11, 0)
+rotation = -1.5707964
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_fydwy")
+
+[node name="FocusVisual" type="Marker2D" parent="Visualization" node_paths=PackedStringArray("focus_target")]
+position = Vector2(0, -3)
+script = ExtResource("5_wm3hn")
+focus_target = NodePath("../../FocusTarget")
+
+[node name="GameStateHelper" type="Node" parent="Visualization/FocusVisual"]
+script = ExtResource("1_uutqg")
+save_properties = Array[String](["rotation"])
+metadata/_custom_type_script = "uid://cn2kmhuprughx"
+
+[node name="Sprite2D" type="Sprite2D" parent="Visualization/FocusVisual"]
+modulate = Color(1, 1, 0.09803922, 1)
+position = Vector2(15, 1.4210855e-14)
+rotation = -1.5707964
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("9_fydwy")
+
+[node name="StatusEffectsVisual" type="Node2D" parent="Visualization" node_paths=PackedStringArray("status_effects_manager", "animated_sprite_2d")]
+script = ExtResource("7_b3tjq")
+status_effects_manager = NodePath("../../StatusEffectsManager")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+
+[node name="HealthBar" parent="Visualization" instance=ExtResource("8_ljdub")]
+position = Vector2(1.1920929e-07, -29)
+
+[node name="Shadow" type="Sprite2D" parent="Visualization"]
+position = Vector2(0, 2.9999998)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("12_xgiot")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="CombatManager" type="Node2D" parent="."]
+script = ExtResource("7_ff53k")
+metadata/_custom_type_script = "uid://b1f6r67gwp27w"
+
+[node name="StatsContainer" type="Node" parent="."]
+
+[node name="HealthStat" type="Node" parent="StatsContainer"]
+script = ExtResource("10_8j211")
+metadata/_custom_type_script = "uid://c1pa5xfc00ghn"
+
+[node name="Damage" type="Node" parent="StatsContainer"]
+script = ExtResource("8_b3tjq")
+metadata/_custom_type_script = "uid://dxyamevhn0x1y"
+
+[node name="StatusEffectsManager" type="Node" parent="."]
+script = ExtResource("16_n8kwc")
+metadata/_custom_type_script = "uid://c5mgtdi0upws1"
+
+[node name="Look" type="Node" parent="." node_paths=PackedStringArray("animated_sprite_2d")]
+script = ExtResource("2_vr7r3")
+animated_sprite_2d = NodePath("../AnimatedSprite2D")
+metadata/_custom_type_script = "uid://bwn7rr7jmh5iw"
+
+[node name="GameStateHelper" type="Node" parent="Look"]
+script = ExtResource("1_uutqg")
+save_properties = Array[String](["_direction", "_target_direction"])
+metadata/_custom_type_script = "uid://cn2kmhuprughx"
+
+[node name="Repulsion" type="Node" parent="."]
+script = ExtResource("4_fbjc0")
+collision_mask = 2
+metadata/_custom_type_script = "uid://ca2ba666vhmsi"
+
+[node name="Upgrades" type="Node" parent="."]
+script = ExtResource("6_vajux")
+metadata/_custom_type_script = "uid://c8s66gdl5sumg"
+
+[node name="Inventory" type="Node" parent="."]
+script = ExtResource("8_ff53k")
+metadata/_custom_type_script = "uid://bwf2tw11gun68"
+
+[node name="FocusTarget" type="Node" parent="." node_paths=PackedStringArray("_agent")]
+script = ExtResource("13_erwmk")
+_agent = NodePath("..")
+metadata/_custom_type_script = "uid://cbcyyrjmcj81j"
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("1_d5ey5")
+metadata/_custom_type_script = "uid://lwdibe28ijve"
+
+[node name="Death" type="Node" parent="." node_paths=PackedStringArray("health", "heart_box", "visualization", "movement", "repulsion", "bt_player", "animated_sprite_2d", "collision_shape_2d", "shadow")]
+script = ExtResource("19_8j211")
+health = NodePath("../StatsContainer/HealthStat")
+heart_box = NodePath("../HeartBox")
+visualization = NodePath("../Visualization")
+movement = NodePath("../Movement")
+repulsion = NodePath("../Repulsion")
+bt_player = NodePath("../BTPlayer")
+animated_sprite_2d = NodePath("../AnimatedSprite2D")
+collision_shape_2d = NodePath("../CollisionShape2D")
+shadow = NodePath("../Visualization/Shadow")
+metadata/_custom_type_script = "uid://cvjksxmvkt3wp"
+
+[node name="BTPlayer" type="BTPlayer" parent="."]
+active = false
+blackboard_plan = SubResource("BlackboardPlan_8j211")
+
+[node name="GameStateHelper" type="Node" parent="BTPlayer"]
+script = ExtResource("1_uutqg")
+save_properties = Array[String](["behavior_tree", "blackboard_plan"])
+metadata/_custom_type_script = "uid://cn2kmhuprughx"

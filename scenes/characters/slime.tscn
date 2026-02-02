@@ -1,0 +1,234 @@
+[gd_scene load_steps=31 format=3 uid="uid://8lemtpkoiidu"]
+
+[ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_v1yb0"]
+[ext_resource type="Texture2D" uid="uid://27ekwbaok4rs" path="res://assets/sprites/characters/Slime/slime-Sheet.png" id="2_boxg1"]
+[ext_resource type="Script" uid="uid://ciccm2t54ylk4" path="res://scripts/animation_handlers/idle_animation_handler.gd" id="3_5r2xf"]
+[ext_resource type="PackedScene" uid="uid://dn105hwvei600" path="res://scenes/abilities/secrete_slime_ability.tscn" id="3_72r5k"]
+[ext_resource type="BehaviorTree" uid="uid://dcrw14jvmpnle" path="res://ai/trees/slime.tres" id="3_boxg1"]
+[ext_resource type="Script" uid="uid://blbj7pnevjfo1" path="res://scripts/animation_handlers/run_animation_handler.gd" id="4_f237t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gh1sf"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(0, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72r5k"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(32, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5r2xf"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(64, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f237t"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(96, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u04vo"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(128, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ss67y"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(0, 50, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qs2n0"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(32, 50, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0o58u"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(64, 50, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5uqdy"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(96, 50, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40hkw"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(128, 50, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mudnh"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(128, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2u7ff"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(160, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0pqva"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(192, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlu1m"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(224, 25, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtvfo"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(0, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jujbt"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(32, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldrty"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(64, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hh66v"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(96, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avky6"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(128, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihl77"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(160, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwj2q"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(192, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4o8xv"]
+atlas = ExtResource("2_boxg1")
+region = Rect2(224, 0, 32, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1ngy3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gh1sf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72r5k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5r2xf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f237t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u04vo")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ss67y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qs2n0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0o58u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5uqdy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40hkw")
+}],
+"loop": false,
+"name": &"death",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mudnh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2u7ff")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0pqva")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xlu1m")
+}],
+"loop": false,
+"name": &"heart",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtvfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jujbt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ldrty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hh66v")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_avky6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihl77")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwj2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4o8xv")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_72r5k"]
+
+[node name="Slime" instance=ExtResource("1_v1yb0")]
+
+[node name="NavigationAgent2D" parent="." index="1"]
+debug_use_custom = true
+debug_path_custom_color = Color(0.30588236, 0.5019608, 1, 1)
+
+[node name="HeartBox" parent="." index="4" node_paths=PackedStringArray("health")]
+health = NodePath("../HealthComponent")
+
+[node name="HealthBar" parent="Visualization" index="3"]
+position = Vector2(1.4210855e-14, -18)
+
+[node name="AnimatedSprite2D" parent="." index="6"]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_1ngy3")
+animation = &"run"
+flip_h = true
+
+[node name="IdleAnimHandler" type="Node" parent="AnimationHandlers" index="0" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager")]
+script = ExtResource("3_5r2xf")
+movement = NodePath("../../Movement")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+combat_manager = NodePath("../../CombatManager")
+metadata/_custom_type_script = "uid://ciccm2t54ylk4"
+
+[node name="RunAnimHandler" type="Node" parent="AnimationHandlers" index="1" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager")]
+script = ExtResource("4_f237t")
+movement = NodePath("../../Movement")
+animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+combat_manager = NodePath("../../CombatManager")
+metadata/_custom_type_script = "uid://blbj7pnevjfo1"
+
+[node name="SecreteMucusAbility" parent="CombatManager" index="0" instance=ExtResource("3_72r5k")]
+
+[node name="HealthComponent" parent="." index="9"]
+_max_value = 20.0
+_value = 20.0
+
+[node name="BTPlayer" type="BTPlayer" parent="." index="16"]
+behavior_tree = ExtResource("3_boxg1")
+blackboard_plan = SubResource("BlackboardPlan_72r5k")

@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dals85dkmje1r"]
+
+[ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_cxcql"]
+[ext_resource type="Texture2D" uid="uid://tbcaxgogf2df" path="res://assets/sprites/characters/Манекен.png" id="2_pn4cr"]
+[ext_resource type="Script" uid="uid://bgi8cftulrccu" path="res://scripts/status_effets/InvulnerabilityStatusEffect.gd" id="3_pn4cr"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4av2s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_pn4cr")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="TrainingDummy" instance=ExtResource("1_cxcql")]
+
+[node name="CollisionShape2D" parent="." index="3"]
+disabled = true
+
+[node name="HeartBox" parent="." index="4" node_paths=PackedStringArray("health")]
+health = NodePath("../HealthComponent")
+
+[node name="Sprite2D" parent="Visualization/LookVisual" index="1"]
+position = Vector2(24, 0)
+
+[node name="HealthBar" parent="Visualization" index="3"]
+position = Vector2(1.4210855e-14, -45)
+
+[node name="AnimatedSprite2D" parent="." index="6"]
+position = Vector2(2, -21)
+scale = Vector2(0.21803764, 0.23822626)
+sprite_frames = SubResource("SpriteFrames_4av2s")
+animation = &"new_animation"
+
+[node name="InvulnerabilityStatusEffect" type="Node" parent="StatusEffectsManager" index="0"]
+script = ExtResource("3_pn4cr")
+metadata/_custom_type_script = "uid://bgi8cftulrccu"

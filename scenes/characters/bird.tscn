@@ -1,0 +1,118 @@
+[gd_scene load_steps=15 format=3 uid="uid://cisal27jcfkhe"]
+
+[ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_41i38"]
+[ext_resource type="Texture2D" uid="uid://27ekwbaok4rs" path="res://assets/sprites/characters/Slime/slime-Sheet.png" id="2_142vc"]
+[ext_resource type="Texture2D" uid="uid://c65y8ef7b4d0f" path="res://assets/sprites/characters/bird-black.png" id="2_dwjge"]
+[ext_resource type="BehaviorTree" uid="uid://cf28li5wacenc" path="res://ai/trees/bird.tres" id="3_dwjge"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ushfa"]
+atlas = ExtResource("2_142vc")
+region = Rect2(192, 50, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_142vc"]
+atlas = ExtResource("2_dwjge")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aoeho"]
+atlas = ExtResource("2_dwjge")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45abh"]
+atlas = ExtResource("2_dwjge")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0u2q"]
+atlas = ExtResource("2_dwjge")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ha3yr"]
+atlas = ExtResource("2_dwjge")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0msxs"]
+atlas = ExtResource("2_dwjge")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jkjl"]
+atlas = ExtResource("2_dwjge")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ushfa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ushfa")
+}],
+"loop": true,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_142vc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aoeho")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_142vc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aoeho")
+}],
+"loop": false,
+"name": &"eat",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45abh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h0u2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ha3yr")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0msxs")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jkjl")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_142vc"]
+
+[node name="Bird" instance=ExtResource("1_41i38")]
+
+[node name="HeartBox" parent="." index="4" node_paths=PackedStringArray("health")]
+health = NodePath("../HealthComponent")
+
+[node name="HealthBar" parent="Visualization" index="3"]
+position = Vector2(1.4210855e-14, -13.000001)
+
+[node name="AnimatedSprite2D" parent="." index="6"]
+position = Vector2(0, -5)
+sprite_frames = SubResource("SpriteFrames_ushfa")
+animation = &"eat"
+
+[node name="Movement" parent="." index="15"]
+_move_speed = 500
+
+[node name="BTPlayer" type="BTPlayer" parent="." index="16"]
+behavior_tree = ExtResource("3_dwjge")
+blackboard_plan = SubResource("BlackboardPlan_142vc")

@@ -1,0 +1,185 @@
+[gd_scene format=3 uid="uid://cinep6l1m4ggw"]
+
+[node name="ScreenSettingsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.31802, 0.31802, 0.31802, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Container" type="PanelContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Main" type="MarginContainer" parent="HBoxContainer/Container"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Container/Main"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Game" type="Button" parent="HBoxContainer/Container/Main/VBoxContainer" node_paths=PackedStringArray("shortcut_context")]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_top = NodePath("../Back")
+focus_neighbor_bottom = NodePath("../Video")
+focus_next = NodePath("../Video")
+shortcut_context = NodePath("..")
+theme_override_font_sizes/font_size = 40
+keep_pressed_outside = true
+text = "GAME"
+language = "Rus_RU"
+
+[node name="Video" type="Button" parent="HBoxContainer/Container/Main/VBoxContainer" node_paths=PackedStringArray("shortcut_context")]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+shortcut_context = NodePath("..")
+theme_override_font_sizes/font_size = 40
+text = "VIDEO"
+language = "Rus_RU"
+
+[node name="Sound" type="Button" parent="HBoxContainer/Container/Main/VBoxContainer" node_paths=PackedStringArray("shortcut_context")]
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+shortcut_context = NodePath("..")
+theme_override_font_sizes/font_size = 40
+text = "SOUND"
+
+[node name="Control" type="Button" parent="HBoxContainer/Container/Main/VBoxContainer" node_paths=PackedStringArray("shortcut_context")]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+shortcut_context = NodePath("..")
+theme_override_font_sizes/font_size = 40
+text = "CONTROL"
+language = "Rus_RU"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/Container/Main/VBoxContainer"]
+layout_mode = 2
+
+[node name="Back" type="Button" parent="HBoxContainer/Container/Main/VBoxContainer" node_paths=PackedStringArray("shortcut_context")]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../Game")
+focus_next = NodePath("../Game")
+shortcut_context = NodePath("..")
+theme_override_font_sizes/font_size = 40
+text = "BACK"
+language = "Rus_RU"
+
+[node name="Views" type="PanelContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VideoSettingsView" type="MarginContainer" parent="HBoxContainer/Views"]
+visible = false
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Views/VideoSettingsView"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/Views/VideoSettingsView/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ScreenMode" type="HBoxContainer" parent="HBoxContainer/Views/VideoSettingsView/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Views/VideoSettingsView/VBoxContainer/MarginContainer/ScreenMode"]
+layout_mode = 2
+text = "screen mode"
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/Views/VideoSettingsView/VBoxContainer/MarginContainer/ScreenMode"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SoundSettingsView" type="MarginContainer" parent="HBoxContainer/Views"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/Views/SoundSettingsView"]
+layout_mode = 2
+
+[node name="TotalVolume" type="MarginContainer" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer/TotalVolume"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer/TotalVolume/HBox"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer/TotalVolume/HBox/Control"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 81.0
+offset_bottom = 29.0
+text = "total volume"
+
+[node name="MusicVolume" type="MarginContainer" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer/MusicVolume"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer/MusicVolume/HBox"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/Views/SoundSettingsView/VBoxContainer/MusicVolume/HBox/Control"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 89.0
+offset_bottom = 29.0
+text = "music volume"

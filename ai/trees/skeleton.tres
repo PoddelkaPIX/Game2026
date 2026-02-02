@@ -1,0 +1,92 @@
+[gd_resource type="BehaviorTree" load_steps=20 format=3 uid="uid://c4ripi3pkc6em"]
+
+[ext_resource type="Script" uid="uid://cc6qvmydiqrai" path="res://ai/tasks/set_target_pos.gd" id="1_rarlp"]
+[ext_resource type="Script" uid="uid://c4u61s6hcixnn" path="res://ai/tasks/find_target.gd" id="1_rfyo7"]
+[ext_resource type="Script" uid="uid://0fgpw11rlfwj" path="res://ai/tasks/move_to_target.gd" id="2_rarlp"]
+[ext_resource type="Script" uid="uid://dlgbrft66bylc" path="res://ai/tasks/execute_base_attack.gd" id="3_rarlp"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_7y8xs"]
+var/target/name = &"target"
+var/target/type = 24
+var/target/hint = 0
+var/target/hint_string = ""
+var/focus_target/name = &"focus_target"
+var/focus_target/type = 22
+var/focus_target/value = NodePath("FocusTarget")
+var/focus_target/hint = 0
+var/focus_target/hint_string = ""
+var/movement/name = &"movement"
+var/movement/type = 22
+var/movement/value = NodePath("Movement")
+var/movement/hint = 0
+var/movement/hint_string = ""
+var/nav_agent/name = &"nav_agent"
+var/nav_agent/type = 22
+var/nav_agent/value = NodePath("NavigationAgent2D")
+var/nav_agent/hint = 0
+var/nav_agent/hint_string = ""
+var/look/name = &"look"
+var/look/type = 22
+var/look/value = NodePath("Look")
+var/look/hint = 0
+var/look/hint_string = ""
+var/combat_manager/name = &"combat_manager"
+var/combat_manager/type = 22
+var/combat_manager/value = NodePath("CombatManager")
+var/combat_manager/hint = 0
+var/combat_manager/hint_string = ""
+
+[sub_resource type="BBVariant" id="BBVariant_rarlp"]
+type = 1
+saved_value = true
+resource_name = "true"
+
+[sub_resource type="BTCheckAgentProperty" id="BTCheckAgentProperty_4b0tu"]
+property = &"_is_died"
+value = SubResource("BBVariant_rarlp")
+
+[sub_resource type="BTSequence" id="BTSequence_rarlp"]
+children = [SubResource("BTCheckAgentProperty_4b0tu")]
+
+[sub_resource type="BBVariant" id="BBVariant_rfyo7"]
+saved_value = null
+resource_name = "<null>"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_drkch"]
+variable = &"target"
+check_type = 5
+value = SubResource("BBVariant_rfyo7")
+
+[sub_resource type="BTAction" id="BTAction_fuu0r"]
+script = ExtResource("1_rarlp")
+
+[sub_resource type="BTAction" id="BTAction_4b0tu"]
+script = ExtResource("2_rarlp")
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_rarlp"]
+min_duration = 0.1
+max_duration = 1.0
+
+[sub_resource type="BTAction" id="BTAction_f81l1"]
+script = ExtResource("3_rarlp")
+
+[sub_resource type="BTAction" id="BTAction_rarlp"]
+script = ExtResource("1_rfyo7")
+
+[sub_resource type="BTSequence" id="BTSequence_1lx0f"]
+custom_name = "Combat"
+children = [SubResource("BTCheckVar_drkch"), SubResource("BTAction_fuu0r"), SubResource("BTAction_4b0tu"), SubResource("BTRandomWait_rarlp"), SubResource("BTAction_f81l1"), SubResource("BTAction_rarlp")]
+
+[sub_resource type="BTAction" id="BTAction_1ys7m"]
+script = ExtResource("1_rfyo7")
+
+[sub_resource type="BTSequence" id="BTSequence_hqqep"]
+custom_name = "Idle"
+children = [SubResource("BTAction_1ys7m")]
+
+[sub_resource type="BTSelector" id="BTSelector_2y572"]
+children = [SubResource("BTSequence_rarlp"), SubResource("BTSequence_1lx0f"), SubResource("BTSequence_hqqep")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_7y8xs")
+root_task = SubResource("BTSelector_2y572")

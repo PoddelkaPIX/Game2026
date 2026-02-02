@@ -1,0 +1,146 @@
+[gd_scene load_steps=11 format=3 uid="uid://pfjdn0corbs7"]
+
+[ext_resource type="Script" uid="uid://bkgfgx2mk4dhq" path="res://addons/smartcamera2D/SmartCamera2D.gd" id="2_aaawo"]
+[ext_resource type="Script" uid="uid://bgn2u2jpuf4gw" path="res://scripts/componets/QuestManagerComponent.gd" id="2_k8sqs"]
+[ext_resource type="Script" uid="uid://cn2kmhuprughx" path="res://addons/game_state_saver/game_state_helper.gd" id="2_sdorv"]
+[ext_resource type="PackedScene" uid="uid://5g33gfmnxhl7" path="res://scenes/ui/escape_menu.tscn" id="3_ns3qn"]
+[ext_resource type="Script" uid="uid://cr7v2wux6p267" path="res://scripts/componets/DifficultyManager.gd" id="4_5045v"]
+[ext_resource type="Script" uid="uid://dykm3depvap54" path="res://scripts/componets/MapInputComponent.gd" id="5_aaawo"]
+[ext_resource type="Script" uid="uid://bfygj1k8wa3pu" path="res://scripts/componets/CharacterFactory.gd" id="6_aaawo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_aaawo"]
+font_size = 8
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5045v"]
+font_size = 9
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_sdorv"]
+
+[node name="BaseMap" type="Node2D"]
+
+[node name="CharacterFactory" type="Node2D" parent="."]
+y_sort_enabled = true
+script = ExtResource("6_aaawo")
+
+[node name="Оbstacles" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Triggers" type="Node2D" parent="."]
+
+[node name="GameStateHelper" type="Node" parent="."]
+script = ExtResource("2_sdorv")
+metadata/_custom_type_script = "uid://cn2kmhuprughx"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="EscapeMenu" parent="CanvasLayer" instance=ExtResource("3_ns3qn")]
+visible = false
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = 308.0
+offset_top = 207.0
+offset_right = 480.0
+offset_bottom = 264.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Row1" type="HBoxContainer" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer/Row1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "Передвижение"
+label_settings = SubResource("LabelSettings_aaawo")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer/Row1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "AWSD (ЛСтик) "
+label_settings = SubResource("LabelSettings_5045v")
+
+[node name="Row2" type="HBoxContainer" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer/Row2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "Фокусировка на цели"
+label_settings = SubResource("LabelSettings_aaawo")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer/Row2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "U (Наж. ЛСтик) "
+label_settings = SubResource("LabelSettings_5045v")
+
+[node name="Row3" type="HBoxContainer" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer/Row3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "Взаимодействовать"
+label_settings = SubResource("LabelSettings_aaawo")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/MarginContainer/VBoxContainer/Row3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 9
+text = "F (Y) "
+label_settings = SubResource("LabelSettings_5045v")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_sdorv")
+
+[node name="SmartCamera2D" type="Camera2D" parent="."]
+position = Vector2(-237, -77)
+position_smoothing_speed = 10.0
+script = ExtResource("2_aaawo")
+target_mode = 1
+target = NodePath("../CharacterFactory/Player")
+metadata/_custom_type_script = "uid://bkgfgx2mk4dhq"
+
+[node name="DifficultyManager" type="Node" parent="."]
+script = ExtResource("4_5045v")
+metadata/_custom_type_script = "uid://cr7v2wux6p267"
+
+[node name="QuestManager" type="Node" parent="."]
+script = ExtResource("2_k8sqs")
+metadata/_custom_type_script = "uid://bgn2u2jpuf4gw"
+
+[node name="MapInput" type="Node" parent="." node_paths=PackedStringArray("escape_menu")]
+script = ExtResource("5_aaawo")
+escape_menu = NodePath("../CanvasLayer/EscapeMenu")
+metadata/_custom_type_script = "uid://dykm3depvap54"

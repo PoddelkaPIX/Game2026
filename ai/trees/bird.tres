@@ -1,0 +1,125 @@
+[gd_resource type="BehaviorTree" load_steps=29 format=3 uid="uid://cf28li5wacenc"]
+
+[ext_resource type="Script" uid="uid://lbabwjpmpiqi" path="res://ai/tasks/choose_random_pos.gd" id="1_hfiq7"]
+[ext_resource type="Script" uid="uid://dcercmijl3ocg" path="res://ai/tasks/move_to_pose.gd" id="2_ohsvd"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_mx5st"]
+var/nav_agent/name = &"nav_agent"
+var/nav_agent/type = 22
+var/nav_agent/value = NodePath("NavigationAgent2D")
+var/nav_agent/hint = 0
+var/nav_agent/hint_string = ""
+var/move_component/name = &"move_component"
+var/move_component/type = 22
+var/move_component/value = NodePath("Movement")
+var/move_component/hint = 0
+var/move_component/hint_string = ""
+var/look/name = &"look"
+var/look/type = 22
+var/look/value = NodePath("Look")
+var/look/hint = 0
+var/look/hint_string = ""
+
+[sub_resource type="BBVariant" id="BBVariant_mx5st"]
+type = 4
+saved_value = "fly"
+resource_name = "fly"
+
+[sub_resource type="BBNode" id="BBNode_hfiq7"]
+saved_value = NodePath("AnimatedSprite2D")
+resource_name = "AnimatedSprite2D"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_ohsvd"]
+node = SubResource("BBNode_hfiq7")
+method = &"play"
+args = Array[BBVariant]([SubResource("BBVariant_mx5st")])
+
+[sub_resource type="BTAlwaysFail" id="BTAlwaysFail_mx5st"]
+children = [SubResource("BTCallMethod_ohsvd")]
+
+[sub_resource type="BTSequence" id="BTSequence_hfiq7"]
+custom_name = "Fly"
+children = [SubResource("BTAlwaysFail_mx5st")]
+
+[sub_resource type="BBVariant" id="BBVariant_hfiq7"]
+type = 4
+saved_value = "eat"
+resource_name = "eat"
+
+[sub_resource type="BBNode" id="BBNode_xj4ea"]
+saved_value = NodePath("AnimatedSprite2D")
+resource_name = "AnimatedSprite2D"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_xg3kt"]
+node = SubResource("BBNode_xj4ea")
+method = &"play"
+args = Array[BBVariant]([SubResource("BBVariant_hfiq7")])
+
+[sub_resource type="BTWait" id="BTWait_xj4ea"]
+
+[sub_resource type="BTSequence" id="BTSequence_ohsvd"]
+custom_name = "Eat"
+children = [SubResource("BTCallMethod_xg3kt"), SubResource("BTWait_xj4ea")]
+
+[sub_resource type="BTProbability" id="BTProbability_7ar0q"]
+run_chance = 0.3
+children = [SubResource("BTSequence_ohsvd")]
+
+[sub_resource type="BBVariant" id="BBVariant_nswhd"]
+type = 4
+saved_value = "idle"
+resource_name = "idle"
+
+[sub_resource type="BBNode" id="BBNode_0qfey"]
+saved_value = NodePath("AnimatedSprite2D")
+resource_name = "AnimatedSprite2D"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_5sbm2"]
+node = SubResource("BBNode_0qfey")
+method = &"play"
+args = Array[BBVariant]([SubResource("BBVariant_nswhd")])
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_xg3kt"]
+
+[sub_resource type="BTSequence" id="BTSequence_17chj"]
+custom_name = "Idle"
+children = [SubResource("BTCallMethod_5sbm2"), SubResource("BTRandomWait_xg3kt")]
+
+[sub_resource type="BTProbability" id="BTProbability_2n1qs"]
+run_chance = 0.2
+children = [SubResource("BTSequence_17chj")]
+
+[sub_resource type="BTAction" id="BTAction_ohsvd"]
+script = ExtResource("1_hfiq7")
+
+[sub_resource type="BBVariant" id="BBVariant_hqegi"]
+type = 4
+saved_value = "walk"
+resource_name = "walk"
+
+[sub_resource type="BBNode" id="BBNode_smes8"]
+saved_value = NodePath("AnimatedSprite2D")
+resource_name = "AnimatedSprite2D"
+
+[sub_resource type="BTCallMethod" id="BTCallMethod_sw1ca"]
+node = SubResource("BBNode_smes8")
+method = &"play"
+args = Array[BBVariant]([SubResource("BBVariant_hqegi")])
+
+[sub_resource type="BTAction" id="BTAction_m3a64"]
+script = ExtResource("2_ohsvd")
+
+[sub_resource type="BTSequence" id="BTSequence_gwx50"]
+custom_name = "Walk"
+children = [SubResource("BTAction_ohsvd"), SubResource("BTCallMethod_sw1ca"), SubResource("BTAction_m3a64")]
+
+[sub_resource type="BTSelector" id="BTSelector_5eg5k"]
+custom_name = "Patrol"
+children = [SubResource("BTProbability_7ar0q"), SubResource("BTProbability_2n1qs"), SubResource("BTSequence_gwx50")]
+
+[sub_resource type="BTSelector" id="BTSelector_m3a64"]
+children = [SubResource("BTSequence_hfiq7"), SubResource("BTSelector_5eg5k")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_mx5st")
+root_task = SubResource("BTSelector_m3a64")

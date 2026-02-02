@@ -1,0 +1,105 @@
+[gd_scene load_steps=15 format=3 uid="uid://bdt1cql6ee7ul"]
+
+[ext_resource type="Script" uid="uid://4amjvjmlxtac" path="res://scripts/interactive_objects/sign.gd" id="1_yidnd"]
+[ext_resource type="Texture2D" uid="uid://ro20wh8monp" path="res://assets/sprites/props/табличка.png" id="2_yidnd"]
+[ext_resource type="Texture2D" uid="uid://b1plsqvx38ern" path="res://assets/sprites/props/Destructible Objects Sprite Sheet.png" id="4_lamfj"]
+[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/triggers/InteractiveTriggerArea.gd" id="5_ge4wj"]
+[ext_resource type="Script" uid="uid://c1pa5xfc00ghn" path="res://scripts/stats/HealthStat.gd" id="6_o2jkk"]
+[ext_resource type="Script" uid="uid://c5mgtdi0upws1" path="res://scripts/componets/StatusEffectsFactory.gd" id="7_o2jkk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xipn1"]
+atlas = ExtResource("4_lamfj")
+region = Rect2(128, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vjdb"]
+atlas = ExtResource("4_lamfj")
+region = Rect2(192, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ntjj"]
+atlas = ExtResource("4_lamfj")
+region = Rect2(256, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cdl7k"]
+atlas = ExtResource("4_lamfj")
+region = Rect2(320, 448, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wpcbb"]
+atlas = ExtResource("4_lamfj")
+region = Rect2(64, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_85gti"]
+atlas = ExtResource("4_lamfj")
+region = Rect2(128, 384, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvi1m"]
+atlas = ExtResource("4_lamfj")
+region = Rect2(0, 384, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ge4wj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xipn1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vjdb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ntjj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cdl7k")
+}],
+"loop": false,
+"name": &"destroy",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wpcbb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_85gti")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvi1m")
+}],
+"loop": false,
+"name": &"heart",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yidnd")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Sign" type="Node2D"]
+script = ExtResource("1_yidnd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.6745098, 0.36078432, 0.16078432, 1)
+position = Vector2(1, -11)
+scale = Vector2(0.30377904, 0.30377913)
+sprite_frames = SubResource("SpriteFrames_ge4wj")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("6_o2jkk")
+_max_value = null
+_value = null
+metadata/_custom_type_script = "uid://c1pa5xfc00ghn"
+
+[node name="StatusEffectManager" type="Node" parent="."]
+script = ExtResource("7_o2jkk")
+metadata/_custom_type_script = "uid://c5mgtdi0upws1"
+
+[node name="InteractiveTriggerArea" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 32
+script = ExtResource("5_ge4wj")
+metadata/_custom_type_script = "uid://b2g13emyhc2y1"

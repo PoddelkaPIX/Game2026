@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://5g33gfmnxhl7"]
+
+[ext_resource type="Script" uid="uid://lo7gaakt2nde" path="res://scripts/ui/escape_menu.gd" id="1_y5i2k"]
+[ext_resource type="PackedScene" uid="uid://cinep6l1m4ggw" path="res://scenes/ui/settings_menu.tscn" id="2_5pmh4"]
+
+[node name="EscapeMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_y5i2k")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ContinueBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "KEY_CONTINUE"
+
+[node name="SettiongsBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "KEY_SETTINGS"
+
+[node name="ExitBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+focus_neighbor_bottom = NodePath("../ContinueBtn")
+text = "KEY_EXIT"
+
+[node name="ScreenSettingsMenu" parent="." instance=ExtResource("2_5pmh4")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[connection signal="pressed" from="VBoxContainer/ContinueBtn" to="." method="_on_continue_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]

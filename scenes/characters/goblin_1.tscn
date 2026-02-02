@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://q7xuntdecbf2"]
+
+[ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_dqali"]
+[ext_resource type="Texture2D" uid="uid://27ekwbaok4rs" path="res://assets/sprites/characters/Slime/slime-Sheet.png" id="2_10cj2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_747lk"]
+atlas = ExtResource("2_10cj2")
+region = Rect2(32, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvjpa"]
+atlas = ExtResource("2_10cj2")
+region = Rect2(64, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhjmi"]
+atlas = ExtResource("2_10cj2")
+region = Rect2(96, 0, 32, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ek6j"]
+atlas = ExtResource("2_10cj2")
+region = Rect2(0, 0, 32, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h0oba"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_747lk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvjpa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhjmi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ek6j")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Goblin_1" instance=ExtResource("1_dqali")]
+
+[node name="Sprite2D" parent="Visualization/LookVisual" index="1"]
+position = Vector2(20, 0)
+
+[node name="AnimatedSprite2D" parent="." index="5"]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_h0oba")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(0.975, 0)
+flip_h = true
+
+[node name="Health" parent="Stats" index="1"]
+_max_value = null
+_value = null

@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://e1wtrmw3in8w"]
+
+[ext_resource type="Script" uid="uid://b8swwrqsspaai" path="res://scripts/areas/HeartBox.gd" id="1_faxwv"]
+[ext_resource type="Texture2D" uid="uid://diykdflp4gsgg" path="res://assets/sprites/shadow.png" id="2_5gnq7"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jop6p"]
+radius = 3.0
+height = 12.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_faxwv"]
+radius = 5.0
+height = 18.0
+
+[node name="Tree" type="StaticBody2D"]
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-5.684342e-14, 2)
+scale = Vector2(0.05888888, 0.058888897)
+texture = ExtResource("2_5gnq7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_jop6p")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -5.0
+offset_top = -40.0
+offset_right = 5.0
+color = Color(0.81960785, 0.3882353, 0.27058825, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = -12.0
+offset_top = -45.0
+offset_right = 11.0
+offset_bottom = -25.0
+color = Color(0.47058824, 0.7254902, 0.11372549, 1)
+
+[node name="HeartBox" type="Area2D" parent="." node_paths=PackedStringArray("agent")]
+script = ExtResource("1_faxwv")
+agent = NodePath("..")
+metadata/_custom_type_script = "uid://b8swwrqsspaai"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeartBox"]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_faxwv")
+debug_color = Color(0.63292974, 0.5258344, 0.15330693, 0.41960785)

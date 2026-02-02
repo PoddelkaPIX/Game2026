@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://ivekx7x4l6qi"]
+
+[ext_resource type="Script" uid="uid://c2uniuislwi18" path="res://scripts/areas/HitBox.gd" id="1_p2ln4"]
+[ext_resource type="Texture2D" uid="uid://bk87iq23ohdc" path="res://assets/sprites/props/Ядовитый куст.png" id="2_ff5qm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ff5qm"]
+size = Vector2(60, 20)
+
+[node name="PoisonousBush" type="Node2D"]
+
+[node name="HitBox" type="Area2D" parent="."]
+position = Vector2(0.039733887, -3.125)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_p2ln4")
+metadata/_custom_type_script = "uid://c2uniuislwi18"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_ff5qm")
+
+[node name="ЯдовитыйКуст" type="Sprite2D" parent="."]
+modulate = Color(0.078431375, 0.7529412, 0.23137255, 1)
+position = Vector2(2.0397348, -15.125)
+scale = Vector2(0.23675497, 0.23675497)
+texture = ExtResource("2_ff5qm")
