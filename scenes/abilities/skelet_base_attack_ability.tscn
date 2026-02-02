@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://u53bc5oqoiyn"]
+
+[ext_resource type="PackedScene" uid="uid://d3s8c4bakvwdc" path="res://scenes/abilities/_base_ability.tscn" id="1_qwcd3"]
+[ext_resource type="Script" uid="uid://uvh562k3gxy6" path="res://scripts/abilities/skelet_base_attack_ability.gd" id="2_nv4v4"]
+[ext_resource type="Script" uid="uid://c2uniuislwi18" path="res://scripts/areas/HitBox.gd" id="2_or11r"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nv4v4"]
+radius = 6.0
+height = 32.0
+
+[node name="SkeletBaseAttackAbility" instance=ExtResource("1_qwcd3")]
+script = ExtResource("2_nv4v4")
+
+[node name="HitBox" type="Area2D" parent="." index="0"]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+monitorable = false
+script = ExtResource("2_or11r")
+metadata/_custom_type_script = "uid://c2uniuislwi18"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2(25, 0)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_nv4v4")
+debug_color = Color(0.926262, 0.22738865, 0.38697016, 0.41960785)
+
+[node name="ColorRect" type="ColorRect" parent="." index="1"]
+offset_left = 9.0
+offset_top = -6.0
+offset_right = 43.0
+offset_bottom = 6.0
+color = Color(1, 0, 0, 0.20392157)
+
+[node name="HitAudio" type="AudioStreamPlayer" parent="." index="2"]
+
+[node name="MissAudio" type="AudioStreamPlayer" parent="." index="3"]

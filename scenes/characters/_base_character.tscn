@@ -115,6 +115,10 @@ script = ExtResource("4_fbjc0")
 collision_mask = 2
 metadata/_custom_type_script = "uid://ca2ba666vhmsi"
 
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("1_d5ey5")
+metadata/_custom_type_script = "uid://lwdibe28ijve"
+
 [node name="Inventory" type="Node" parent="."]
 script = ExtResource("8_ff53k")
 metadata/_custom_type_script = "uid://bwf2tw11gun68"
@@ -123,7 +127,3 @@ metadata/_custom_type_script = "uid://bwf2tw11gun68"
 script = ExtResource("13_erwmk")
 _agent = NodePath("..")
 metadata/_custom_type_script = "uid://cbcyyrjmcj81j"
-
-[node name="Movement" type="Node" parent="."]
-script = ExtResource("1_d5ey5")
-metadata/_custom_type_script = "uid://lwdibe28ijve"

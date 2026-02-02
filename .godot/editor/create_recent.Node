@@ -1,4 +1,4 @@
-StanLockStatusEffect
+ColorRect
 Pointer
 Node
 BaseAttackAnimHandler
@@ -7,7 +7,6 @@ HitAnimHandler
 RunAnimHandler
 IdleAnimHandler
 BTPlayer
-ColorRect
 DifficultyManager
 WavesManager
 CharacterSpawner

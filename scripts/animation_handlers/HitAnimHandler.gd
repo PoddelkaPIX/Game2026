@@ -6,5 +6,3 @@ func _ready() -> void:
 func _on_character_hited():
 	if owner.is_died(): return
 	animated_sprite_2d.play('hit')
-	await animated_sprite_2d.animation_finished
-	animated_sprite_2d.play('idle')

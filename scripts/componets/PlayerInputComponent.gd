@@ -1,5 +1,7 @@
 class_name PlayerInput extends Node
 
+# HACK Изменить - Объеденить PlayerInput, PlayerController и PlayerInteract
+
 signal movement_requested(direction: Vector2)
 signal interact_requested()
 signal focus_target_requested()

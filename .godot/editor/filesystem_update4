@@ -1,0 +1,14 @@
+res://scenes/maps/map_0.tscn
+res://ai/trees/bird.tres
+res://ai/trees/skeleton.tres
+res://ai/trees/slime.tres
+res://scripts/animation_handlers/DeathAnimHandler.gd
+res://scripts/animation_handlers/HitAnimHandler.gd
+res://scripts/animation_handlers/idle_animation_handler.gd
+res://scripts/animation_handlers/run_animation_handler.gd
+res://scenes/characters/skeleton.tscn
+res://scenes/characters/player.tscn
+res://scripts/componets/PlayerInputComponent.gd
+res://scenes/characters/_base_character.tscn
+res://scenes/abilities/skelet_base_attack_ability.tscn
+res://scripts/abilities/skelet_base_attack_ability.gd
