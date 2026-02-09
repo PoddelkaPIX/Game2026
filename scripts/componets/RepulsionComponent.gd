@@ -1,34 +1,53 @@
 class_name Repulsion extends Node
 
 @export var collision_mask = -1
-@export var radius = 5
+@export var radius: float = 4
+@export var power: float = 50
 
-@export var is_active = true:
+@export var disabled = false:
 	set(value):
-		is_active = value
-		smart_area.monitoring = is_active
-		smart_area.monitorable = is_active
+		disabled = value
+		area.monitoring = !value
+		area.monitorable = !value
 
-var smart_area = SmartArea.new()
+var area = Area2D.new()
+var area_name = 'RepulsionArea'
 var collision_shape = CollisionShape2D.new()
+
+var nodes: Array[Node2D]
 
 func _ready() -> void:
 	var shape = CircleShape2D.new()
 	shape.radius = radius
 	collision_shape.shape = shape
-	smart_area.set_collision_layer_value(1, false)
-	smart_area.set_collision_mask_value(1, false)
-	smart_area.set_collision_layer_value(collision_mask, true)
-	smart_area.set_collision_mask_value(collision_mask, true)
+	area.set_collision_layer_value(1, false)
+	area.set_collision_mask_value(1, false)
+	area.set_collision_layer_value(collision_mask, true)
+	area.set_collision_mask_value(collision_mask, true)
+	area.name = area_name
+	area.add_child(collision_shape)
+	area.area_entered.connect(_on_area_entered)
+	area.area_exited.connect(_on_area_exited)
 
-	smart_area.add_child(collision_shape)
-	owner.add_child.call_deferred(smart_area)
+	owner.add_child.call_deferred(area)
+
+func _on_area_entered(_area):
+	if _area.name != area_name: return
+	nodes.append(_area.get_parent())
+	
+func _on_area_exited(_area):
+	if _area.name != area_name: return
+	nodes.erase(_area.get_parent())
 
 func _physics_process(_delta: float) -> void:
-	if is_active == false: return
-	if len(smart_area.bodies) > 0:
-		for body in smart_area.bodies:
-			if body is CharacterBody2D and owner is CharacterBody2D and owner != body:
-				var dir = owner.global_position.direction_to(body.global_position)
-				var dist = owner.global_position.distance_to(body.global_position)
-				body.velocity += dir * 200 / dist
+	if disabled: return
+	for node in nodes:
+		if owner == node: return
+		
+		var char_pos = node.global_position
+		var owner_pos = owner.global_position
+		
+		var dir = owner_pos.direction_to(char_pos)
+		var dist = owner_pos.distance_to(char_pos)
+		
+		AddImpulseCommand.new(node, dir, (power / 2) - dist).execute()

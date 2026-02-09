@@ -21,8 +21,9 @@ config/icon="uid://mxasqoyf4jb5"
 DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
 GameStateService="*res://addons/game_state_saver/game_state_service.gd"
 CameraControl="*res://addons/smartcamera2D/CameraControl.gd"
-EventBus="*res://scripts/singletons/EventBus.gd"
 LocalizationManager="*res://addons/localization_editor/LocalizationManager.gd"
+Log="*res://addons/GoLogger/Log.tscn"
+DebugMenu="*res://addons/debug_menu/debug_menu.tscn"
 
 [display]
 
@@ -34,7 +35,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg", "res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/game_state_saver/plugin.cfg", "res://addons/localization_editor/plugin.cfg", "res://addons/project-time-tracker/plugin.cfg", "res://addons/smartcamera2D/plugin.cfg")
+enabled=PackedStringArray("res://addons/GoLogger/plugin.cfg", "res://addons/Todo_Manager/plugin.cfg", "res://addons/anthonyec.camera_preview/plugin.cfg", "res://addons/debug_menu/plugin.cfg", "res://addons/dialogue_manager/plugin.cfg", "res://addons/game_state_saver/plugin.cfg", "res://addons/localization_editor/plugin.cfg", "res://addons/project-time-tracker/plugin.cfg", "res://addons/smartcamera2D/plugin.cfg")
 
 [file_customization]
 
@@ -120,12 +121,12 @@ interact={
 }
 quick_save={
 "deadzone": 0.2,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194336,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194332,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 quick_load={
 "deadzone": 0.2,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194337,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194333,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 escape={

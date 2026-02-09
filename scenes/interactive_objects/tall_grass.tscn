@@ -1,0 +1,119 @@
+[gd_scene load_steps=13 format=3 uid="uid://b1aolanqc06x5"]
+
+[ext_resource type="Texture2D" uid="uid://cw1045g3168wb" path="res://assets/tall grass.png" id="1_50bm7"]
+[ext_resource type="Script" uid="uid://d2jejtes6u723" path="res://scripts/interactive_objects/tall_grass.gd" id="1_58u87"]
+[ext_resource type="Texture2D" uid="uid://diykdflp4gsgg" path="res://assets/sprites/shadow.png" id="2_58u87"]
+[ext_resource type="Texture2D" uid="uid://bwofdmc0qa087" path="res://assets/pieces of grass.png" id="2_vcffp"]
+[ext_resource type="Script" uid="uid://c1pa5xfc00ghn" path="res://scripts/Health.gd" id="3_4kimg"]
+[ext_resource type="Script" uid="uid://b8swwrqsspaai" path="res://scripts/areas/HeartBox.gd" id="5_4kimg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vynfx"]
+atlas = ExtResource("1_50bm7")
+region = Rect2(0, 0, 102, 93)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ras5n"]
+atlas = ExtResource("1_50bm7")
+region = Rect2(102, 0, 102, 93)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vcffp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vynfx")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ras5n")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_5flnm"]
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1r6sd"]
+particle_flag_damping_as_friction = true
+emission_shape = 6
+emission_ring_axis = Vector3(10, 0, 10)
+emission_ring_height = 1.0
+emission_ring_radius = 1.0
+emission_ring_inner_radius = 0.0
+emission_ring_cone_angle = 90.0
+angle_min = -416.19998
+angle_max = 230.00002
+inherit_velocity_ratio = 0.722
+direction = Vector3(1, -100, 0)
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 0.77600014
+radial_velocity_min = 41.179977
+radial_velocity_max = 51.179977
+gravity = Vector3(0, 198, 0)
+radial_accel_min = -2.2351742e-06
+radial_accel_max = 77.649994
+damping_max = 12.941001
+scale_min = 0.099999994
+scale_max = 0.5
+scale_over_velocity_max = 23.529999
+anim_speed_max = 0.84999996
+anim_offset_max = 1.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dvtkj"]
+radius = 3.5263634
+height = 23.371735
+
+[node name="TallGrass" type="Node2D"]
+script = ExtResource("1_58u87")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(-1.7985915, 0.3270187)
+scale = Vector2(0.05, 0.029705426)
+texture = ExtResource("2_58u87")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.43529412, 0.7529412, 0, 1)
+position = Vector2(-1.0871295, -14.127159)
+scale = Vector2(0.3278297, 0.3873754)
+sprite_frames = SubResource("SpriteFrames_vcffp")
+animation = &"1"
+autoplay = "1"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_5flnm")
+position = Vector2(0.16638184, -63.253746)
+scale = Vector2(0.556, 0.1)
+emitting = false
+amount = 20
+texture = ExtResource("2_vcffp")
+one_shot = true
+preprocess = 1.46
+speed_scale = 2.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_1r6sd")
+
+[node name="Health" type="Node" parent="."]
+script = ExtResource("3_4kimg")
+metadata/_custom_type_script = "uid://c1pa5xfc00ghn"
+
+[node name="HeartBox" type="Area2D" parent="."]
+visible = false
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_4kimg")
+metadata/_custom_type_script = "uid://b8swwrqsspaai"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HeartBox"]
+position = Vector2(1.0720731e-07, -2.4526176)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_dvtkj")
+debug_color = Color(0.82294166, 0.39915475, 0.08702927, 0.41960785)
+
+[connection signal="value_changed" from="Health" to="." method="_on_health_value_changed"]

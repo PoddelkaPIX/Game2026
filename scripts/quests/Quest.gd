@@ -18,3 +18,9 @@ func activate():
 
 func _on_activated():
 	pass
+
+func success():
+	successfully.emit()
+	
+func fail():
+	failed.emit()

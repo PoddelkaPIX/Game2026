@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=3 uid="uid://bd0laimthkqi2"]
+[gd_scene load_steps=80 format=3 uid="uid://bd0laimthkqi2"]
 
 [ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_kcsnh"]
 [ext_resource type="Texture2D" uid="uid://cg5lkra3hvnqv" path="res://assets/sprites/characters/skeleton/Skeleton Attack.png" id="2_11w7t"]
@@ -6,13 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://w8fxfrtuv7ys" path="res://assets/sprites/characters/skeleton/Skeleton Hit.png" id="4_7y8xs"]
 [ext_resource type="Texture2D" uid="uid://basyitjpm8qcs" path="res://assets/sprites/characters/skeleton/Skeleton Idle.png" id="5_ohjdn"]
 [ext_resource type="Texture2D" uid="uid://dbpcg824gaim6" path="res://assets/sprites/characters/skeleton/Skeleton Walk.png" id="6_1lx0f"]
-[ext_resource type="Script" uid="uid://ciccm2t54ylk4" path="res://scripts/animation_handlers/idle_animation_handler.gd" id="7_1lx0f"]
-[ext_resource type="PackedScene" uid="uid://cx3d1nyi01sqh" path="res://scenes/abilities/player_base_attack.tscn" id="7_bhsuw"]
-[ext_resource type="Script" uid="uid://blbj7pnevjfo1" path="res://scripts/animation_handlers/run_animation_handler.gd" id="8_7tan2"]
+[ext_resource type="Script" uid="uid://ciccm2t54ylk4" path="res://scripts/animation_handlers/movement_animation_handler.gd" id="7_1lx0f"]
 [ext_resource type="BehaviorTree" uid="uid://c4ripi3pkc6em" path="res://ai/trees/skeleton.tres" id="8_7y8xs"]
 [ext_resource type="Script" uid="uid://bxfoq76c8opkd" path="res://scripts/animation_handlers/DeathAnimHandler.gd" id="9_7tan2"]
 [ext_resource type="Script" uid="uid://n6qc8yxv50ui" path="res://scripts/animation_handlers/BaseAttackAnimationHandler.gd" id="10_hqqep"]
 [ext_resource type="Script" uid="uid://buca51fku8xui" path="res://scripts/animation_handlers/HitAnimHandler.gd" id="10_rmro7"]
+[ext_resource type="PackedScene" uid="uid://u53bc5oqoiyn" path="res://scenes/abilities/skelet_base_attack_ability.tscn" id="12_hqqep"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7tan2"]
 atlas = ExtResource("2_11w7t")
@@ -502,64 +501,66 @@ animations = [{
 [node name="Skeleton" instance=ExtResource("1_kcsnh")]
 fraction = 2
 
-[node name="HeartBox" parent="." index="4" node_paths=PackedStringArray("health")]
-health = NodePath("../HealthComponent")
-
 [node name="HealthBar" parent="Visualization" index="2"]
 position = Vector2(1.6940659e-21, -44)
 
+[node name="ConcentrationBar" parent="Visualization" index="3"]
+position = Vector2(0, -41.885384)
+
+[node name="Shadow" parent="Visualization" index="4"]
+position = Vector2(0, 2.2182539)
+
 [node name="AnimatedSprite2D" parent="." index="6"]
-position = Vector2(0, -27)
+position = Vector2(0, -23.649656)
 scale = Vector2(1.4791666, 1.4791666)
 sprite_frames = SubResource("SpriteFrames_iw5p3")
 animation = &"idle"
 autoplay = "idle"
 offset = Vector2(3.16, 0)
 
-[node name="IdleAnimHandler" type="Node" parent="AnimationHandlers" index="0" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager")]
+[node name="MovementAnimHandler" type="Node" parent="AnimationHandlers" index="0" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("7_1lx0f")
 movement = NodePath("../../Movement")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://ciccm2t54ylk4"
 
-[node name="RunAnimHandler" type="Node" parent="AnimationHandlers" index="1" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager")]
-script = ExtResource("8_7tan2")
-movement = NodePath("../../Movement")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
-combat_manager = NodePath("../../CombatManager")
-metadata/_custom_type_script = "uid://blbj7pnevjfo1"
-
-[node name="DeathAnimHandler" type="Node" parent="AnimationHandlers" index="2" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager")]
+[node name="DeathAnimHandler" type="Node" parent="AnimationHandlers" index="1" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("9_7tan2")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://bxfoq76c8opkd"
 
-[node name="BaseAttackAnimHandler" type="Node" parent="AnimationHandlers" index="3" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager")]
+[node name="BaseAttackAnimHandler" type="Node" parent="AnimationHandlers" index="2" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("10_hqqep")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://n6qc8yxv50ui"
 
-[node name="HitAnimHandler" type="Node" parent="AnimationHandlers" index="4" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager")]
+[node name="HitAnimHandler" type="Node" parent="AnimationHandlers" index="3" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("10_rmro7")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://buca51fku8xui"
 
-[node name="CombatManager" parent="." index="8" node_paths=PackedStringArray("_base_attack")]
-_base_attack = NodePath("PlayerBaseAttack")
+[node name="CombatManager" parent="." index="9" node_paths=PackedStringArray("_base_attack")]
+_base_attack = NodePath("SkeletBaseAttackAbility")
 
-[node name="PlayerBaseAttack" parent="CombatManager" index="0" node_paths=PackedStringArray("look", "focus_target", "movement") instance=ExtResource("7_bhsuw")]
+[node name="SkeletBaseAttackAbility" parent="CombatManager" index="0" node_paths=PackedStringArray("look", "focus_target") instance=ExtResource("12_hqqep")]
 look = NodePath("../../Look")
 focus_target = NodePath("../../FocusTarget")
-movement = NodePath("../../Movement")
 
-[node name="HealthComponent" parent="." index="9"]
+[node name="Health" parent="." index="10"]
 _max_value = 5.0
 _value = 5.0
 
-[node name="BTPlayer" type="BTPlayer" parent="." index="16"]
+[node name="Inventory" parent="." index="15"]
+soul_pieces = 10
+
+[node name="BTPlayer" type="BTPlayer" parent="." index="17"]
 behavior_tree = ExtResource("8_7y8xs")
 blackboard_plan = SubResource("BlackboardPlan_52ipj")

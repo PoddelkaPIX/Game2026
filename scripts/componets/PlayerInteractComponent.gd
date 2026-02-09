@@ -41,7 +41,7 @@ func _ready() -> void:
 	owner.add_child.call_deferred(marker)
 	
 func _physics_process(_delta: float) -> void:
-	marker.rotation = look.get_direction().angle()
+	marker.rotation = look.direction().angle()
 
 func _on_area_entered(_area):
 	interactive_area = find_interactive_area()

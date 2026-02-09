@@ -6,14 +6,14 @@ var _direction = _target_direction
 @export var animated_sprite_2d: AnimatedSprite2D
 
 @export var smooth_turn_enabled = true
-@export var turn_speed_deg: float = 600.0  # Скорость в градусах в секунду
+@export var turn_speed_deg: float = 600.0
 
 @onready var _init_sprite_scale: Vector2 = animated_sprite_2d.scale
 
 func _physics_process(delta: float) -> void:
-	if get_direction().x > 0:
+	if _direction.x > 0:
 		animated_sprite_2d.scale.x = _init_sprite_scale.x
-	elif get_direction().x < 0:
+	elif _direction.x < 0:
 		animated_sprite_2d.scale.x = -_init_sprite_scale.x
 	if smooth_turn_enabled:
 		_update_linear_direction(delta)
@@ -47,47 +47,12 @@ func _update_linear_direction(delta: float) -> void:
 	var new_angle = current_angle + angle_change
 	_direction = Vector2(cos(new_angle), sin(new_angle))
 
-func get_direction() -> Vector2:
+func direction() -> Vector2:
 	return _direction
 
-func get_target_direction() -> Vector2:
+func target_direction() -> Vector2:
 	return _target_direction
 
 func set_target_direction(dir: Vector2) -> void:
 	if dir.length_squared() > 0:
 		_target_direction = dir.normalized()
-
-func set_immediate_direction(dir: Vector2) -> void:
-	"""Установить направление мгновенно (без плавности)"""
-	if dir.length_squared() > 0:
-		_target_direction = dir.normalized()
-		_direction = _target_direction
-
-func get_angle() -> float:
-	"""Получить текущий угол направления в радианах"""
-	return _direction.angle()
-
-func get_target_angle() -> float:
-	"""Получить целевой угол направления в радианах"""
-	return _target_direction.angle()
-
-func get_angle_to_target() -> float:
-	"""Получить разницу между текущим и целевым направлением в радианах"""
-	return wrapf(_target_direction.angle() - _direction.angle(), -PI, PI)
-
-func get_angle_to_target_deg() -> float:
-	"""Получить разницу между текущим и целевым направлением в градусах"""
-	return rad_to_deg(get_angle_to_target())
-
-func is_facing_target(tolerance_deg: float = 1.0) -> bool:
-	"""Проверяет, смотрит ли объект в целевом направлении"""
-	var tolerance_rad = deg_to_rad(tolerance_deg)
-	return abs(get_angle_to_target()) < tolerance_rad
-
-func set_turn_speed_deg(speed: float) -> void:
-	"""Установить скорость поворота в градусах в секунду"""
-	turn_speed_deg = max(speed, 0.0)
-
-func set_turn_speed_rad(speed: float) -> void:
-	"""Установить скорость поворота в радианах в секунду"""
-	turn_speed_deg = rad_to_deg(max(speed, 0.0))

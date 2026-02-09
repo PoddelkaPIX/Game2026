@@ -7,14 +7,10 @@ func _ready() -> void:
 	new_game_btn.grab_focus()
 
 func _on_play_game_pressed() -> void:
-	StartNewGameCommand.new().execute({
-		'tree': get_tree()
-	})
+	StartNewGameCommand.new(get_tree()).execute()
 
 func _on_continue_btn_pressed() -> void:
 	pass
 
 func _on_exit_btn_pressed() -> void:
-	ExitGameCommand.new().execute({
-		'tree': get_tree()
-	})
+	ExitGameCommand.new(get_tree()).execute()

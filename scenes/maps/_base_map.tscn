@@ -1,12 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://pfjdn0corbs7"]
+[gd_scene load_steps=16 format=3 uid="uid://pfjdn0corbs7"]
 
+[ext_resource type="Script" uid="uid://bwoe5735cs07b" path="res://scripts/waves/WavesManager.gd" id="1_jvdpv"]
+[ext_resource type="Script" uid="uid://ee0ceihyracv" path="res://scripts/waves/Wave.gd" id="2_3qyd3"]
 [ext_resource type="Script" uid="uid://bkgfgx2mk4dhq" path="res://addons/smartcamera2D/SmartCamera2D.gd" id="2_aaawo"]
 [ext_resource type="Script" uid="uid://bgn2u2jpuf4gw" path="res://scripts/componets/QuestManagerComponent.gd" id="2_k8sqs"]
 [ext_resource type="Script" uid="uid://cn2kmhuprughx" path="res://addons/game_state_saver/game_state_helper.gd" id="2_sdorv"]
+[ext_resource type="Script" uid="uid://bqqriciue3qj4" path="res://scripts/ItemManager.gd" id="3_3qyd3"]
 [ext_resource type="PackedScene" uid="uid://5g33gfmnxhl7" path="res://scenes/ui/escape_menu.tscn" id="3_ns3qn"]
+[ext_resource type="Script" uid="uid://celhicoyh1qhu" path="res://scripts/ProjectileManager.gd" id="3_vu1kf"]
 [ext_resource type="Script" uid="uid://cr7v2wux6p267" path="res://scripts/componets/DifficultyManager.gd" id="4_5045v"]
 [ext_resource type="Script" uid="uid://dykm3depvap54" path="res://scripts/componets/MapInputComponent.gd" id="5_aaawo"]
-[ext_resource type="Script" uid="uid://bfygj1k8wa3pu" path="res://scripts/componets/CharacterFactory.gd" id="6_aaawo"]
+[ext_resource type="Script" uid="uid://bfygj1k8wa3pu" path="res://scripts/componets/CharacterManager.gd" id="6_aaawo"]
+
+[sub_resource type="Resource" id="Resource_f7m8c"]
+script = ExtResource("2_3qyd3")
+metadata/_custom_type_script = "uid://ee0ceihyracv"
 
 [sub_resource type="LabelSettings" id="LabelSettings_aaawo"]
 font_size = 8
@@ -22,7 +30,21 @@ outline_color = Color(0, 0, 0, 1)
 
 [node name="BaseMap" type="Node2D"]
 
-[node name="CharacterFactory" type="Node2D" parent="."]
+[node name="WavesManager" type="Node" parent="."]
+script = ExtResource("1_jvdpv")
+waves = Array[ExtResource("2_3qyd3")]([SubResource("Resource_f7m8c")])
+metadata/_custom_type_script = "uid://bwoe5735cs07b"
+
+[node name="ItemManager" type="Node2D" parent="." groups=["ItemManager"]]
+y_sort_enabled = true
+script = ExtResource("3_3qyd3")
+metadata/_custom_type_script = "uid://bqqriciue3qj4"
+
+[node name="ProjectileManager" type="Node2D" parent="." groups=["ProjectileManager"]]
+y_sort_enabled = true
+script = ExtResource("3_vu1kf")
+
+[node name="CharacterManager" type="Node2D" parent="." groups=["CharacterManager"]]
 y_sort_enabled = true
 script = ExtResource("6_aaawo")
 

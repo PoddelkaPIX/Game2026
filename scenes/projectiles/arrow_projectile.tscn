@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://chdyi74kedq8f"]
+
+[ext_resource type="PackedScene" uid="uid://bxsgn0qexua3k" path="res://scenes/projectiles/_base_projectile.tscn" id="1_box0h"]
+[ext_resource type="Texture2D" uid="uid://yq4diu2afrh5" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_01.png" id="2_61xda"]
+[ext_resource type="Texture2D" uid="uid://c0ta67m4d2hhi" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_02.png" id="3_axx0y"]
+[ext_resource type="Texture2D" uid="uid://c7sikgxrfevc8" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_03.png" id="4_rcm8q"]
+[ext_resource type="Texture2D" uid="uid://bg8nptytt1gj" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_04.png" id="5_qtca4"]
+[ext_resource type="Texture2D" uid="uid://e6n10w3ey2rh" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_05.png" id="6_j7oc2"]
+[ext_resource type="Texture2D" uid="uid://cyklofupdqj1i" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_06.png" id="7_fciul"]
+[ext_resource type="Texture2D" uid="uid://vfxtnj05xppi" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_07.png" id="8_6yk64"]
+[ext_resource type="Texture2D" uid="uid://c8um6wrbryb3o" path="res://assets/sprites/abilities/fire arrow/Fire Arrow_Frame_08.png" id="9_4x5jd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_61xda"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_61xda")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_axx0y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_rcm8q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_qtca4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_j7oc2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fciul")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6yk64")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_4x5jd")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="ArrowProjectile" instance=ExtResource("1_box0h")]
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+position = Vector2(-9.999998, 4.7683716e-07)
+scale = Vector2(0.06679686, 0.066796884)
+sprite_frames = SubResource("SpriteFrames_61xda")
+autoplay = "default"
+frame_progress = 0.32166606
+
+[node name="HitBox" parent="." index="1"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+debug_color = Color(0.949421, 0.13630375, 0.45846736, 0.41960785)
+
+[connection signal="area_entered" from="HitBox" to="." method="_on_hit_box_area_entered"]

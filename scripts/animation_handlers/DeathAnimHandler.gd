@@ -1,9 +1,10 @@
 class_name DeathAnimHandler extends AnimationHandler
 
 func  _ready() -> void:
-	if owner is Character:
-		owner.died.connect(_on_character_died)
+	status_effect_manager.child_entered_tree.connect(_on_status_effect_entered)
 
-func _on_character_died():
+func _on_status_effect_entered(node):
+	if node is not DeathStatusEffect: return
+	
 	if animated_sprite_2d.sprite_frames.has_animation('death'):
-		animated_sprite_2d.play('death')
+		animated_sprite_2d.play.call_deferred('death')

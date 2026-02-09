@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://c0xbvrjmptgp" path="res://assets/sprites/caves/doors_lever_chest_animation.png" id="2_f0g6q"]
 [ext_resource type="Script" uid="uid://bv6jy0hfair0e" path="res://scripts/interactive_objects/door.gd" id="2_jvl4v"]
-[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/triggers/InteractiveTriggerArea.gd" id="3_f0g6q"]
+[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/areas/InteractiveTriggerArea.gd" id="3_f0g6q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f0g6q"]
 size = Vector2(26, 10)

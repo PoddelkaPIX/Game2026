@@ -3,7 +3,7 @@ extends Node2D
 @onready var over_progress: TextureProgressBar = $Over
 @onready var under_progress: TextureProgressBar = $Under
 
-@export var health: HealthComponent
+@export var health: Health
 
 func _ready():
 	set_hp(health.get_value(), health.get_max_value())

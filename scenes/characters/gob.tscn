@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_nodyi"]
 [ext_resource type="Texture2D" uid="uid://spgcki3hyibs" path="res://assets/sprites/characters/гоб.png" id="2_rcjpi"]
-[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/triggers/InteractiveTriggerArea.gd" id="3_3agbv"]
+[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/areas/InteractiveTriggerArea.gd" id="3_3agbv"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_3agbv"]
 animations = [{
@@ -17,13 +17,13 @@ animations = [{
 
 [node name="Gob" instance=ExtResource("1_nodyi")]
 
-[node name="CollisionShape2D" parent="." index="2"]
+[node name="CollisionShape2D" parent="." index="3"]
 disabled = true
 
-[node name="HealthBar" parent="Visualization" index="3"]
+[node name="HealthBar" parent="Visualization" index="2"]
 position = Vector2(1.6940659e-21, -36)
 
-[node name="AnimatedSprite2D" parent="." index="5"]
+[node name="AnimatedSprite2D" parent="." index="6"]
 modulate = Color(0.27058825, 0.8627451, 0.14901961, 1)
 position = Vector2(-4.7683716e-07, -14)
 scale = Vector2(0.11850358, 0.11850357)
@@ -31,7 +31,7 @@ sprite_frames = SubResource("SpriteFrames_3agbv")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="InteractiveTriggerArea" type="Area2D" parent="." index="17"]
+[node name="InteractiveTriggerArea" type="Area2D" parent="." index="16"]
 collision_layer = 32
 collision_mask = 32
 script = ExtResource("3_3agbv")

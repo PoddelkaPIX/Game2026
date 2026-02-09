@@ -1,125 +1,104 @@
 class_name Ability extends Node2D
 
+# Сигналы
 signal active_changed(value)
+signal state_entered(state)
+signal state_exited(state)
+signal cancelled
 
-signal state_preparation_entered()
-signal state_execution_entered()
-signal state_recovery_entered()
-signal state_cooldown_entered()
-
-signal state_preparation_exited()
-signal state_execution_exited()
-signal state_recovery_exited()
-signal state_cooldown_exited()
-
+# Состояние
 enum State {READY, PREPARATION, EXECUTION, RECOVERY, COOLDOWN}
-
 @export var ability_res: AbilityRes = AbilityRes.new()
 
 var _state_timer: float = 0.0
-
-var _current_state = State.READY
-var _is_active = false:
+var _current_state: State = State.READY
+var _is_active: bool = false:
 	set(value):
 		_is_active = value
-		active_changed.emit(_is_active)
+		active_changed.emit(value)
+		if value == false:
+			_reset()
 
 func _enter_tree() -> void:
-	state_execution_entered.connect(_on_execution_entered)
-	state_execution_exited.connect(_on_execution_exited)
-	state_preparation_entered.connect(_on_state_preparation_entered)
-	state_preparation_exited.connect(_on_state_preparation_exited)
-	state_cooldown_entered.connect(_on_state_cooldown_entered)
+	visible = false
+	state_entered.connect(_on_state_entered)
+	state_exited.connect(_on_state_exited)
+	cancelled.connect(_on_cancelled)
+	active_changed.connect(_on_active_changed)
 
 func _exit_tree() -> void:
-	state_execution_entered.disconnect(_on_execution_entered)
-	state_execution_exited.disconnect(_on_execution_exited)
-	state_preparation_entered.disconnect(_on_state_preparation_entered)
-	state_preparation_exited.disconnect(_on_state_preparation_exited)
-	state_cooldown_entered.disconnect(_on_state_cooldown_entered)
+	state_entered.disconnect(_on_state_entered)
+	state_exited.disconnect(_on_state_exited)
+	cancelled.disconnect(_on_cancelled)
+	active_changed.disconnect(_on_active_changed)
 
-func use():
-	if not _current_state == State.READY: return
-	set_state(State.PREPARATION)
+func _physics_process(delta: float) -> void:
+	if _current_state == State.READY:
+		return
 
-func set_state(new_state):
-	if new_state == _current_state: return
-	_state_timer = 0
+	_state_timer += delta
+
+	var duration: float
 	match _current_state:
-		State.PREPARATION:
-			state_preparation_exited.emit()
-		State.EXECUTION:
-			state_execution_exited.emit()
-		State.RECOVERY:
-			state_recovery_exited.emit()
-		State.COOLDOWN:
-			state_cooldown_exited.emit()
-			
+		State.PREPARATION: duration = ability_res.preparation_time
+		State.EXECUTION: duration = ability_res.execution_time
+		State.RECOVERY: duration = ability_res.recovery_time
+		State.COOLDOWN: duration = ability_res.cooldown_time
+		_: duration = 0.0
+
+	if _state_timer >= duration:
+		var next_state: State
+		match _current_state:
+			State.PREPARATION: next_state = State.EXECUTION
+			State.EXECUTION: next_state = State.RECOVERY
+			State.RECOVERY: next_state = State.COOLDOWN
+			State.COOLDOWN: next_state = State.READY
+			_: next_state = State.READY
+		
+		set_state(next_state)
+	
+func use() -> void:
+	if _current_state == State.READY:
+		set_state(State.PREPARATION)
+
+func cancel() -> void:
+	if _current_state == State.PREPARATION:
+		_state_timer = ability_res.cancel_time
+		set_state(State.COOLDOWN)
+		cancelled.emit()
+
+func set_state(new_state: State) -> void:
+	if new_state == _current_state:
+		return
+	
+	# Выход из текущего состояния
+	if _current_state != State.READY:
+		state_exited.emit(_current_state)
+	
+	_state_timer = 0
 	_current_state = new_state
 	
-	match _current_state:
-		State.READY:
-			_is_active = false
-		State.PREPARATION:
-			state_preparation_entered.emit()
-			_is_active = true
-		State.EXECUTION:
-			state_execution_entered.emit()
-			_is_active = true
-		State.RECOVERY:
-			state_recovery_entered.emit()
-			_is_active = true
-		State.COOLDOWN:
-			state_cooldown_entered.emit()
-			_is_active = false
+	# Вход в новое состояние
+	state_entered.emit(_current_state)
+	_is_active = _current_state not in [State.READY, State.COOLDOWN]
 
 func get_state() -> State:
 	return _current_state
 
-func cancel():
-	if _current_state == State.PREPARATION:
-		set_state(State.COOLDOWN)
-		_state_timer = ability_res.cancel_time
-
-func _physics_process(delta: float):
-	if _current_state == State.READY: return
-	
-	match _current_state:
-		State.PREPARATION:
-			_state_timer += delta
-			if _state_timer >= ability_res.preparation_time:
-				set_state(State.EXECUTION)
-				_state_timer = 0
-		State.EXECUTION:
-			_state_timer += delta
-			if _state_timer >= ability_res.execution_time:
-				set_state(State.RECOVERY)
-				_state_timer = 0
-		State.RECOVERY:
-			_state_timer += delta
-			if _state_timer >= ability_res.recovery_time:
-				set_state(State.COOLDOWN)
-				_state_timer = 0
-		State.COOLDOWN:
-			_state_timer += delta
-			if _state_timer >= ability_res.cooldown_time:
-				set_state(State.READY)
-				_state_timer = 0
-
-func is_active():
+func is_active() -> bool:
 	return _is_active
-
-func _on_state_preparation_entered():
+	
+func _reset():
 	pass
 	
-func _on_state_preparation_exited():
+func _on_state_entered(_state: State):
+	pass
+	
+func _on_state_exited(_state: State):
 	pass
 
-func _on_execution_entered():
+func _on_active_changed(_active: bool): 
 	pass
 
-func _on_execution_exited():
-	pass
-
-func _on_state_cooldown_entered():
+func _on_cancelled():
 	pass

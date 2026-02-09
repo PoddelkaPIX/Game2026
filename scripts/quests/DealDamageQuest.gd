@@ -9,12 +9,6 @@ func _process(_delta: float) -> void:
 	
 	if _counter >= _required_damage:
 		successfully.emit()
-
-func _enter_tree() -> void:
-	EventBus.subscribe('damage_done', _on_player_deal_damage)
-
-func _exit_tree() -> void:
-	EventBus.unsubscribe('damage_done', _on_player_deal_damage)
 	
 func _on_player_deal_damage(_data):
 	if disabled: return

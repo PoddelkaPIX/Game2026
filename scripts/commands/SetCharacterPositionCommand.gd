@@ -1,7 +1,13 @@
 class_name SetCharacterPositionCommand extends Command
 
-func execute(_data: Dictionary = {}) -> void:
-	var character: CharacterBody2D = _data.get('character')
-	var position: Vector2 = _data.get('position')
+var character: Character
+var position: Vector2
+
+func _init(_character: Character, _position) -> void:
+	character = _character
+	position = _position
+	
+func execute() -> Result:
 	character.global_position = position
+	return Result.SUCCESS
 	

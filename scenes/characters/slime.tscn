@@ -2,10 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_v1yb0"]
 [ext_resource type="Texture2D" uid="uid://27ekwbaok4rs" path="res://assets/sprites/characters/Slime/slime-Sheet.png" id="2_boxg1"]
-[ext_resource type="Script" uid="uid://ciccm2t54ylk4" path="res://scripts/animation_handlers/idle_animation_handler.gd" id="3_5r2xf"]
+[ext_resource type="Script" uid="uid://ciccm2t54ylk4" path="res://scripts/animation_handlers/movement_animation_handler.gd" id="3_5r2xf"]
 [ext_resource type="PackedScene" uid="uid://dn105hwvei600" path="res://scenes/abilities/secrete_slime_ability.tscn" id="3_72r5k"]
 [ext_resource type="BehaviorTree" uid="uid://dcrw14jvmpnle" path="res://ai/trees/slime.tres" id="3_boxg1"]
-[ext_resource type="Script" uid="uid://blbj7pnevjfo1" path="res://scripts/animation_handlers/run_animation_handler.gd" id="4_f237t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gh1sf"]
 atlas = ExtResource("2_boxg1")
@@ -189,6 +188,22 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="GDScript" id="GDScript_72r5k"]
+script/source = "class_name RunAnimHandler extends AnimationHandler
+
+@export var movement: Movement
+
+func _physics_process(_delta: float) -> void:
+	if movement.get_state() != movement.State.RUN \\
+	or movement.disabled \\
+	or owner.is_died() \\
+	or combat_manager.is_ability_fulfilled() \\
+	or ['death'].find(animated_sprite_2d.animation) != -1:
+		return
+	
+	animated_sprite_2d.play('run')
+"
+
 [sub_resource type="BlackboardPlan" id="BlackboardPlan_72r5k"]
 
 [node name="Slime" instance=ExtResource("1_v1yb0")]
@@ -200,7 +215,7 @@ debug_path_custom_color = Color(0.30588236, 0.5019608, 1, 1)
 [node name="HeartBox" parent="." index="4" node_paths=PackedStringArray("health")]
 health = NodePath("../HealthComponent")
 
-[node name="HealthBar" parent="Visualization" index="3"]
+[node name="HealthBar" parent="Visualization" index="2"]
 position = Vector2(1.4210855e-14, -18)
 
 [node name="AnimatedSprite2D" parent="." index="6"]
@@ -217,11 +232,10 @@ combat_manager = NodePath("../../CombatManager")
 metadata/_custom_type_script = "uid://ciccm2t54ylk4"
 
 [node name="RunAnimHandler" type="Node" parent="AnimationHandlers" index="1" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager")]
-script = ExtResource("4_f237t")
+script = SubResource("GDScript_72r5k")
 movement = NodePath("../../Movement")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
-metadata/_custom_type_script = "uid://blbj7pnevjfo1"
 
 [node name="SecreteMucusAbility" parent="CombatManager" index="0" instance=ExtResource("3_72r5k")]
 

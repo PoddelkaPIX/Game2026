@@ -35,6 +35,14 @@ text = "KEY_CONTINUE"
 layout_mode = 2
 text = "KEY_SETTINGS"
 
+[node name="LoadSaveBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "KEY_LOAD_SAVE"
+
+[node name="SaveGameBtn" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "KEY_SAVE_GAME"
+
 [node name="ExitBtn" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../ContinueBtn")
@@ -46,4 +54,6 @@ visible = false
 layout_mode = 1
 
 [connection signal="pressed" from="VBoxContainer/ContinueBtn" to="." method="_on_continue_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/LoadSaveBtn" to="." method="_on_load_save_btn_pressed"]
+[connection signal="pressed" from="VBoxContainer/SaveGameBtn" to="." method="_on_save_game_btn_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]

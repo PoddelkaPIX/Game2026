@@ -1,3 +1,3 @@
 class_name QuestManager extends Node
 
-# TODO НАЧАТЬ - Квестовая система
+# TODO НАЧАТЬ - Квестовую систему

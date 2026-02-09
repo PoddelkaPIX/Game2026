@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1epvltx0bbft"]
+
+[ext_resource type="Script" uid="uid://dpdh4qaqppveu" path="res://scripts/Item.gd" id="1_4gq7n"]
+[ext_resource type="Texture2D" uid="uid://diykdflp4gsgg" path="res://assets/sprites/shadow.png" id="2_s8enn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s8enn"]
+radius = 35.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6muww"]
+
+[node name="Item" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_4gq7n")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(2.842171e-14, 5)
+scale = Vector2(0.023333337, 0.023333335)
+texture = ExtResource("2_s8enn")
+
+[node name="Area2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_s8enn")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(10, 10)
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+pivot_offset = Vector2(5, 5)
+expand_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_6muww")

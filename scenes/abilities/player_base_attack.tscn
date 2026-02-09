@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://cx3d1nyi01sqh"]
 
 [ext_resource type="Script" uid="uid://l88jumjybb2g" path="res://scripts/abilities/player_base_attack.gd" id="2_dx0ax"]
-[ext_resource type="Script" uid="uid://cq1icdlc6gttu" path="res://scripts/abilities/_AbilityRes.gd" id="3_i85p1"]
+[ext_resource type="Script" uid="uid://cq1icdlc6gttu" path="res://scripts/abilities/AbilityRes.gd" id="3_i85p1"]
 [ext_resource type="Texture2D" uid="uid://opy7mjsu2bmi" path="res://assets/sprites/Slashes/Slash 1/color5/Frames/Slash_color5_frame5.png" id="4_3g1u0"]
 [ext_resource type="Script" uid="uid://c2uniuislwi18" path="res://scripts/areas/HitBox.gd" id="4_6781w"]
 [ext_resource type="Texture2D" uid="uid://b0pd444750kl0" path="res://assets/sprites/Slashes/Slash 1/color5/Frames/Slash_color5_frame6.png" id="5_i85p1"]
@@ -11,14 +11,14 @@
 
 [sub_resource type="Resource" id="Resource_uxacn"]
 script = ExtResource("3_i85p1")
-cooldown_time = 0.5
+cooldown_time = 1.0
 preparation_time = 0.1
-execution_time = 0.3
+recovery_time = 0.4
 metadata/_custom_type_script = "uid://cq1icdlc6gttu"
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pw7kq"]
-radius = 16.0
-height = 32.0
+radius = 8.0
+height = 40.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ahx3o"]
 animations = [{
@@ -44,7 +44,6 @@ animations = [{
 }]
 
 [node name="PlayerBaseAttack" type="Node2D"]
-visible = false
 script = ExtResource("2_dx0ax")
 ability_res = SubResource("Resource_uxacn")
 
@@ -57,7 +56,8 @@ script = ExtResource("4_6781w")
 metadata/_custom_type_script = "uid://c2uniuislwi18"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
-position = Vector2(25, 0)
+position = Vector2(20, 0)
+rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_pw7kq")
 debug_color = Color(0.926262, 0.22738865, 0.38697016, 0.41960785)
 
@@ -66,6 +66,7 @@ debug_color = Color(0.926262, 0.22738865, 0.38697016, 0.41960785)
 [node name="MissAudio" type="AudioStreamPlayer" parent="."]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 position = Vector2(19.000002, 2)
 scale = Vector2(0.4038086, 0.4038086)
 sprite_frames = SubResource("SpriteFrames_ahx3o")

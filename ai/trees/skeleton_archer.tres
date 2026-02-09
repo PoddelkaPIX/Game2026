@@ -1,0 +1,108 @@
+[gd_resource type="BehaviorTree" load_steps=28 format=3 uid="uid://duni733sf8qev"]
+
+[ext_resource type="Script" uid="uid://cc6qvmydiqrai" path="res://ai/tasks/set_target_pos.gd" id="1_kknx8"]
+[ext_resource type="Script" uid="uid://cbygko33qlehy" path="res://ai/tasks/look_to_target.gd" id="2_kknx8"]
+[ext_resource type="Script" uid="uid://dlgbrft66bylc" path="res://ai/tasks/execute_base_attack.gd" id="3_e1ssf"]
+[ext_resource type="Script" uid="uid://bgxn6o4eju1q4" path="res://ai/tasks/check_target.gd" id="4_p1oyl"]
+[ext_resource type="Script" uid="uid://lbabwjpmpiqi" path="res://ai/tasks/choose_random_pos.gd" id="5_w6rb1"]
+[ext_resource type="Script" uid="uid://dcercmijl3ocg" path="res://ai/tasks/move_to_pose.gd" id="6_ivjj4"]
+[ext_resource type="Script" uid="uid://c4u61s6hcixnn" path="res://ai/tasks/find_target.gd" id="7_joyq0"]
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_7y8xs"]
+var/target/name = &"target"
+var/target/type = 24
+var/target/hint = 0
+var/target/hint_string = ""
+var/focus_target/name = &"focus_target"
+var/focus_target/type = 22
+var/focus_target/value = NodePath("FocusTarget")
+var/focus_target/hint = 0
+var/focus_target/hint_string = ""
+var/movement/name = &"movement"
+var/movement/type = 22
+var/movement/value = NodePath("Movement")
+var/movement/hint = 0
+var/movement/hint_string = ""
+var/nav_agent/name = &"nav_agent"
+var/nav_agent/type = 22
+var/nav_agent/value = NodePath("NavigationAgent2D")
+var/nav_agent/hint = 0
+var/nav_agent/hint_string = ""
+var/look/name = &"look"
+var/look/type = 22
+var/look/value = NodePath("Look")
+var/look/hint = 0
+var/look/hint_string = ""
+var/combat_manager/name = &"combat_manager"
+var/combat_manager/type = 22
+var/combat_manager/value = NodePath("CombatManager")
+var/combat_manager/hint = 0
+var/combat_manager/hint_string = ""
+
+[sub_resource type="BBVariant" id="BBVariant_rfyo7"]
+saved_value = null
+resource_name = "<null>"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_drkch"]
+variable = &"target"
+check_type = 5
+value = SubResource("BBVariant_rfyo7")
+
+[sub_resource type="BTAction" id="BTAction_fuu0r"]
+script = ExtResource("1_kknx8")
+
+[sub_resource type="BTAction" id="BTAction_ukd6t"]
+script = ExtResource("2_kknx8")
+
+[sub_resource type="BTWait" id="BTWait_kknx8"]
+
+[sub_resource type="BTAction" id="BTAction_f81l1"]
+script = ExtResource("3_e1ssf")
+
+[sub_resource type="BTAction" id="BTAction_gvjym"]
+script = ExtResource("4_p1oyl")
+
+[sub_resource type="BTAction" id="BTAction_saqvl"]
+script = ExtResource("5_w6rb1")
+
+[sub_resource type="BTAction" id="BTAction_lh05k"]
+script = ExtResource("6_ivjj4")
+
+[sub_resource type="BTAction" id="BTAction_kknx8"]
+script = ExtResource("2_kknx8")
+
+[sub_resource type="BTRandomWait" id="BTRandomWait_f81l1"]
+
+[sub_resource type="BTSequence" id="BTSequence_f81l1"]
+custom_name = "Evasion"
+children = [SubResource("BTAction_saqvl"), SubResource("BTAction_lh05k"), SubResource("BTAction_kknx8"), SubResource("BTRandomWait_f81l1")]
+
+[sub_resource type="BTProbability" id="BTProbability_gvjym"]
+run_chance = 0.7
+children = [SubResource("BTSequence_f81l1")]
+
+[sub_resource type="BTSequence" id="BTSequence_1lx0f"]
+custom_name = "Combat"
+children = [SubResource("BTCheckVar_drkch"), SubResource("BTAction_fuu0r"), SubResource("BTAction_ukd6t"), SubResource("BTWait_kknx8"), SubResource("BTAction_f81l1"), SubResource("BTAction_gvjym"), SubResource("BTProbability_gvjym")]
+
+[sub_resource type="BBVariant" id="BBVariant_f81l1"]
+saved_value = null
+resource_name = "<null>"
+
+[sub_resource type="BTCheckVar" id="BTCheckVar_gvjym"]
+variable = &"target"
+value = SubResource("BBVariant_f81l1")
+
+[sub_resource type="BTAction" id="BTAction_1ys7m"]
+script = ExtResource("7_joyq0")
+
+[sub_resource type="BTSequence" id="BTSequence_hqqep"]
+custom_name = "Idle"
+children = [SubResource("BTCheckVar_gvjym"), SubResource("BTAction_1ys7m")]
+
+[sub_resource type="BTSelector" id="BTSelector_2y572"]
+children = [SubResource("BTSequence_1lx0f"), SubResource("BTSequence_hqqep")]
+
+[resource]
+blackboard_plan = SubResource("BlackboardPlan_7y8xs")
+root_task = SubResource("BTSelector_2y572")

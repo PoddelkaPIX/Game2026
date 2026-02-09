@@ -3,9 +3,9 @@
 [ext_resource type="Script" uid="uid://4amjvjmlxtac" path="res://scripts/interactive_objects/sign.gd" id="1_yidnd"]
 [ext_resource type="Texture2D" uid="uid://ro20wh8monp" path="res://assets/sprites/props/табличка.png" id="2_yidnd"]
 [ext_resource type="Texture2D" uid="uid://b1plsqvx38ern" path="res://assets/sprites/props/Destructible Objects Sprite Sheet.png" id="4_lamfj"]
-[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/triggers/InteractiveTriggerArea.gd" id="5_ge4wj"]
-[ext_resource type="Script" uid="uid://c1pa5xfc00ghn" path="res://scripts/stats/HealthStat.gd" id="6_o2jkk"]
-[ext_resource type="Script" uid="uid://c5mgtdi0upws1" path="res://scripts/componets/StatusEffectsFactory.gd" id="7_o2jkk"]
+[ext_resource type="Script" uid="uid://b2g13emyhc2y1" path="res://scripts/areas/InteractiveTriggerArea.gd" id="5_ge4wj"]
+[ext_resource type="Script" uid="uid://c1pa5xfc00ghn" path="res://scripts/Health.gd" id="6_o2jkk"]
+[ext_resource type="Script" uid="uid://c5mgtdi0upws1" path="res://scripts/componets/StatusEffectsManager.gd" id="7_o2jkk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xipn1"]
 atlas = ExtResource("4_lamfj")

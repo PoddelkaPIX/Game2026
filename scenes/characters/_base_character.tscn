@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bcx0grd4vk3ex"]
+[gd_scene load_steps=22 format=3 uid="uid://bcx0grd4vk3ex"]
 
 [ext_resource type="Script" uid="uid://cqtfnyv7sskwu" path="res://scripts/Character.gd" id="1_8j211"]
 [ext_resource type="Script" uid="uid://lwdibe28ijve" path="res://scripts/componets/MovementComponent.gd" id="1_d5ey5"]
@@ -7,15 +7,18 @@
 [ext_resource type="Script" uid="uid://ca2ba666vhmsi" path="res://scripts/componets/RepulsionComponent.gd" id="4_fbjc0"]
 [ext_resource type="Script" uid="uid://dylycjrg5d4q8" path="res://scripts/ui/status_effects_visual.gd" id="7_b3tjq"]
 [ext_resource type="Script" uid="uid://b1f6r67gwp27w" path="res://scripts/componets/CombatManagerComponent.gd" id="7_ff53k"]
-[ext_resource type="Script" uid="uid://bwf2tw11gun68" path="res://scripts/componets/InventoryComponent.gd" id="8_ff53k"]
+[ext_resource type="Script" uid="uid://bwf2tw11gun68" path="res://scripts/componets/Inventory.gd" id="8_ff53k"]
 [ext_resource type="PackedScene" uid="uid://c046k0pc02be8" path="res://scenes/ui/health_bar.tscn" id="8_ljdub"]
 [ext_resource type="Script" uid="uid://6kqamro8x74q" path="res://scripts/ui/look_visual.gd" id="9_8y1r3"]
 [ext_resource type="Texture2D" uid="uid://bb76dl3aocsjo" path="res://addons/ui_extensions/dropdown/Arrow.svg" id="9_fydwy"]
-[ext_resource type="Script" uid="uid://c1pa5xfc00ghn" path="res://scripts/stats/HealthStat.gd" id="10_8j211"]
+[ext_resource type="PackedScene" uid="uid://byfi5uwvb77jp" path="res://scenes/ui/concentration_bar.tscn" id="9_ljdub"]
+[ext_resource type="Script" uid="uid://c1pa5xfc00ghn" path="res://scripts/Health.gd" id="10_8j211"]
 [ext_resource type="Script" uid="uid://b8swwrqsspaai" path="res://scripts/areas/HeartBox.gd" id="11_wm3hn"]
+[ext_resource type="Script" uid="uid://vcswimv055r0" path="res://scripts/Сoncentration.gd" id="12_b3tjq"]
 [ext_resource type="Texture2D" uid="uid://diykdflp4gsgg" path="res://assets/sprites/shadow.png" id="12_xgiot"]
 [ext_resource type="Script" uid="uid://cbcyyrjmcj81j" path="res://scripts/componets/PlayerFocusTargetComponent.gd" id="13_erwmk"]
-[ext_resource type="Script" uid="uid://c5mgtdi0upws1" path="res://scripts/componets/StatusEffectsFactory.gd" id="16_n8kwc"]
+[ext_resource type="Script" uid="uid://c5mgtdi0upws1" path="res://scripts/componets/StatusEffectsManager.gd" id="16_n8kwc"]
+[ext_resource type="Script" uid="uid://b47u7e7e6wqgq" path="res://scripts/componets/FocusPoint.gd" id="19_8j211"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rn3lg"]
 radius = 4.0
@@ -70,12 +73,17 @@ texture = ExtResource("9_fydwy")
 
 [node name="StatusEffectsVisual" type="Node2D" parent="Visualization" node_paths=PackedStringArray("status_effects_manager", "animated_sprite_2d")]
 script = ExtResource("7_b3tjq")
-status_effects_manager = NodePath("../../StatusEffectsManager")
+status_effects_manager = NodePath("../../StatusEffectManager")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
 [node name="HealthBar" parent="Visualization" node_paths=PackedStringArray("health") instance=ExtResource("8_ljdub")]
-position = Vector2(1.1920929e-07, -29)
-health = NodePath("../../HealthComponent")
+position = Vector2(1.4210855e-14, -41)
+health = NodePath("../../Health")
+
+[node name="ConcentrationBar" parent="Visualization" node_paths=PackedStringArray("concentration") instance=ExtResource("9_ljdub")]
+position = Vector2(0, -38.999996)
+scale = Vector2(0.06, 0.075)
+concentration = NodePath("../../Concentration")
 
 [node name="Shadow" type="Sprite2D" parent="Visualization"]
 z_index = -1
@@ -85,20 +93,25 @@ texture = ExtResource("12_xgiot")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 
+[node name="StatusEffectManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
+script = ExtResource("16_n8kwc")
+nodes = [NodePath("../Look"), NodePath("../Movement"), NodePath("../CombatManager"), NodePath("../Repulsion"), NodePath("../HeartBox"), NodePath("../FocusPoint")]
+metadata/_custom_type_script = "uid://c5mgtdi0upws1"
+
 [node name="AnimationHandlers" type="Node" parent="."]
 
-[node name="CombatManager" type="Node2D" parent="."]
+[node name="CombatManager" type="Node2D" parent="." node_paths=PackedStringArray("status_effects_manager")]
 script = ExtResource("7_ff53k")
+status_effects_manager = NodePath("../StatusEffectManager")
 metadata/_custom_type_script = "uid://b1f6r67gwp27w"
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="Health" type="Node" parent="."]
 script = ExtResource("10_8j211")
 metadata/_custom_type_script = "uid://c1pa5xfc00ghn"
 
-[node name="StatusEffectsManager" type="Node" parent="." node_paths=PackedStringArray("nodes")]
-script = ExtResource("16_n8kwc")
-nodes = [NodePath("../Look"), NodePath("../Movement"), NodePath("../CombatManager")]
-metadata/_custom_type_script = "uid://c5mgtdi0upws1"
+[node name="Concentration" type="Node" parent="."]
+script = ExtResource("12_b3tjq")
+metadata/_custom_type_script = "uid://vcswimv055r0"
 
 [node name="Look" type="Node" parent="." node_paths=PackedStringArray("animated_sprite_2d")]
 script = ExtResource("2_vr7r3")
@@ -123,7 +136,10 @@ metadata/_custom_type_script = "uid://lwdibe28ijve"
 script = ExtResource("8_ff53k")
 metadata/_custom_type_script = "uid://bwf2tw11gun68"
 
-[node name="FocusTarget" type="Node" parent="." node_paths=PackedStringArray("_agent")]
+[node name="FocusTarget" type="Node" parent="."]
 script = ExtResource("13_erwmk")
-_agent = NodePath("..")
 metadata/_custom_type_script = "uid://cbcyyrjmcj81j"
+
+[node name="FocusPoint" type="Marker2D" parent="."]
+script = ExtResource("19_8j211")
+metadata/_custom_type_script = "uid://b47u7e7e6wqgq"

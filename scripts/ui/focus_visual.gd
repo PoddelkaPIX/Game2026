@@ -14,8 +14,8 @@ func _exit_tree() -> void:
 	focus_target.state_changed.disconnect(_on_state_changed)
 	
 func _physics_process(_delta: float) -> void:
-	self.rotation = focus_target.get_direction().angle()
-	var target = focus_target.get_target()
+	self.rotation = focus_target.direction().angle()
+	var target = focus_target.target()
 	if target:
 		sprite.global_position = target.global_position
 		

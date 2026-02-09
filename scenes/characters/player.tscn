@@ -1,20 +1,18 @@
-[gd_scene load_steps=63 format=3 uid="uid://b0lf1ge3f26bc"]
+[gd_scene load_steps=61 format=3 uid="uid://b0lf1ge3f26bc"]
 
 [ext_resource type="PackedScene" uid="uid://bcx0grd4vk3ex" path="res://scenes/characters/_base_character.tscn" id="1_rp718"]
 [ext_resource type="Texture2D" uid="uid://b87dfoffqi58i" path="res://assets/sprites/characters/Warrior/SpriteSheet/Warrior_SheetnoEffect.png" id="2_6eyoc"]
-[ext_resource type="Script" uid="uid://dfph5augl7xlw" path="res://scripts/componets/PlayerInputComponent.gd" id="2_yewv4"]
 [ext_resource type="PackedScene" uid="uid://cx3d1nyi01sqh" path="res://scenes/abilities/player_base_attack.tscn" id="3_6eyoc"]
 [ext_resource type="Script" uid="uid://dv4ra1d5by1bd" path="res://scripts/componets/PlayerControllerComponent.gd" id="3_76oj4"]
 [ext_resource type="PackedScene" uid="uid://mwilld64x1gk" path="res://scenes/abilities/dash.tscn" id="4_eojnx"]
 [ext_resource type="Script" uid="uid://cwwrx8ghgpn0x" path="res://scripts/ui/focus_visual.gd" id="5_xrqxk"]
 [ext_resource type="Script" uid="uid://cn2kmhuprughx" path="res://addons/game_state_saver/game_state_helper.gd" id="6_g66nw"]
-[ext_resource type="Script" uid="uid://bnopv5lkdta0s" path="res://scripts/componets/PlayerInteractComponent.gd" id="6_kqtwu"]
-[ext_resource type="Script" uid="uid://ciccm2t54ylk4" path="res://scripts/animation_handlers/idle_animation_handler.gd" id="6_qgnko"]
-[ext_resource type="Script" uid="uid://blbj7pnevjfo1" path="res://scripts/animation_handlers/run_animation_handler.gd" id="7_7vyk4"]
+[ext_resource type="Script" uid="uid://ciccm2t54ylk4" path="res://scripts/animation_handlers/movement_animation_handler.gd" id="6_qgnko"]
 [ext_resource type="Texture2D" uid="uid://bb76dl3aocsjo" path="res://addons/ui_extensions/dropdown/Arrow.svg" id="7_rpnd8"]
 [ext_resource type="Script" uid="uid://dq08jlb5qr03a" path="res://scripts/animation_handlers/PlayerBaseAttackAnimationHandler.gd" id="8_2l4js"]
 [ext_resource type="Script" uid="uid://buca51fku8xui" path="res://scripts/animation_handlers/HitAnimHandler.gd" id="9_jk2m4"]
 [ext_resource type="Script" uid="uid://bxfoq76c8opkd" path="res://scripts/animation_handlers/DeathAnimHandler.gd" id="10_xhtjm"]
+[ext_resource type="PackedScene" uid="uid://5c8exfw8xcyu" path="res://scenes/abilities/kick_ability.tscn" id="12_xhtjm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yyjep"]
 atlas = ExtResource("2_6eyoc")
@@ -385,30 +383,19 @@ animations = [{
 [node name="Player" groups=["Player"] instance=ExtResource("1_rp718")]
 fraction = 1
 
-[node name="PlayerInput" type="Node" parent="." index="0"]
-script = ExtResource("2_yewv4")
-metadata/_custom_type_script = "uid://dfph5augl7xlw"
-
-[node name="PlayerInteract" type="Node" parent="." index="1" node_paths=PackedStringArray("look")]
-script = ExtResource("6_kqtwu")
-look = NodePath("../Look")
-metadata/_custom_type_script = "uid://bnopv5lkdta0s"
-
-[node name="PlayerController" type="Node" parent="." index="2" node_paths=PackedStringArray("player_input", "player_interact", "_focus_target", "movement", "look", "combat_manager")]
+[node name="PlayerController" type="Node" parent="." index="0" node_paths=PackedStringArray("movement", "look", "combat_manager", "_focus_target")]
 script = ExtResource("3_76oj4")
-player_input = NodePath("../PlayerInput")
-player_interact = NodePath("../PlayerInteract")
-_focus_target = NodePath("../FocusTarget")
 movement = NodePath("../Movement")
 look = NodePath("../Look")
 combat_manager = NodePath("../CombatManager")
+_focus_target = NodePath("../FocusTarget")
 metadata/_custom_type_script = "uid://dv4ra1d5by1bd"
 
-[node name="HeartBox" parent="." index="7" node_paths=PackedStringArray("health")]
-health = NodePath("../HealthComponent")
-
 [node name="HealthBar" parent="Visualization" index="2"]
-position = Vector2(1.4210855e-14, -37)
+position = Vector2(1.6940659e-21, -38)
+
+[node name="ConcentrationBar" parent="Visualization" index="3"]
+position = Vector2(0, -35.888702)
 
 [node name="FocusVisual" type="Marker2D" parent="Visualization" index="4" node_paths=PackedStringArray("focus_target")]
 position = Vector2(0, -3)
@@ -423,65 +410,72 @@ metadata/_custom_type_script = "uid://cn2kmhuprughx"
 [node name="Sprite2D" type="Sprite2D" parent="Visualization/FocusVisual" index="1"]
 modulate = Color(1, 1, 0.09803922, 1)
 position = Vector2(15, 1.4210855e-14)
-rotation = -1.5707964
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("7_rpnd8")
 
-[node name="AnimatedSprite2D" parent="." index="9"]
+[node name="Shadow" parent="Visualization" index="5"]
+scale = Vector2(0.049, 0.067)
+
+[node name="AnimatedSprite2D" parent="." index="7"]
 position = Vector2(0, -21)
 sprite_frames = SubResource("SpriteFrames_6eyoc")
 animation = &"idle"
 autoplay = "idle"
 offset = Vector2(8.645, 0)
 
-[node name="IdleAnimHandler" type="Node" parent="AnimationHandlers" index="0" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager")]
+[node name="StatusEffectManager" parent="." index="8" node_paths=PackedStringArray("nodes")]
+nodes = [NodePath("../Look"), NodePath("../Movement"), NodePath("../CombatManager"), NodePath("../Repulsion"), NodePath("../HeartBox"), NodePath("../PlayerController")]
+
+[node name="MovementAnimHandler" type="Node" parent="AnimationHandlers" index="0" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("6_qgnko")
 movement = NodePath("../../Movement")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://ciccm2t54ylk4"
 
-[node name="RunAnimHandler" type="Node" parent="AnimationHandlers" index="1" node_paths=PackedStringArray("movement", "animated_sprite_2d", "combat_manager")]
-script = ExtResource("7_7vyk4")
-movement = NodePath("../../Movement")
-animated_sprite_2d = NodePath("../../AnimatedSprite2D")
-combat_manager = NodePath("../../CombatManager")
-metadata/_custom_type_script = "uid://blbj7pnevjfo1"
-
-[node name="PlayerBaseAttackAnimHandler" type="Node" parent="AnimationHandlers" index="2" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager")]
+[node name="PlayerBaseAttackAnimHandler" type="Node" parent="AnimationHandlers" index="1" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("8_2l4js")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://dq08jlb5qr03a"
 
-[node name="HitAnimHandler" type="Node" parent="AnimationHandlers" index="3" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager")]
+[node name="HitAnimHandler" type="Node" parent="AnimationHandlers" index="2" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("9_jk2m4")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://buca51fku8xui"
 
-[node name="DeathAnimHandler" type="Node" parent="AnimationHandlers" index="4" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager")]
+[node name="DeathAnimHandler" type="Node" parent="AnimationHandlers" index="3" node_paths=PackedStringArray("animated_sprite_2d", "combat_manager", "status_effect_manager")]
 script = ExtResource("10_xhtjm")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 combat_manager = NodePath("../../CombatManager")
+status_effect_manager = NodePath("../../StatusEffectManager")
 metadata/_custom_type_script = "uid://bxfoq76c8opkd"
 
-[node name="CombatManager" parent="." index="11" node_paths=PackedStringArray("_base_attack", "_ability_3")]
+[node name="CombatManager" parent="." index="10" node_paths=PackedStringArray("_base_attack", "_ability_1", "_ability_3")]
 _base_attack = NodePath("PlayerBaseAttack")
+_ability_1 = NodePath("KickAbility")
 _ability_3 = NodePath("Dash")
 
-[node name="PlayerBaseAttack" parent="CombatManager" index="0" node_paths=PackedStringArray("look", "focus_target", "movement") instance=ExtResource("3_6eyoc")]
+[node name="PlayerBaseAttack" parent="CombatManager" index="0" node_paths=PackedStringArray("look", "focus_target") instance=ExtResource("3_6eyoc")]
 look = NodePath("../../Look")
 focus_target = NodePath("../../FocusTarget")
-movement = NodePath("../../Movement")
 
-[node name="Dash" parent="CombatManager" index="1" node_paths=PackedStringArray("_movement", "_look") instance=ExtResource("4_eojnx")]
-_movement = NodePath("../../Movement")
+[node name="KickAbility" parent="CombatManager" index="1" instance=ExtResource("12_xhtjm")]
+
+[node name="Dash" parent="CombatManager" index="2" node_paths=PackedStringArray("_look") instance=ExtResource("4_eojnx")]
 _look = NodePath("../../Look")
 
-[node name="HealthComponent" parent="." index="12"]
+[node name="Health" parent="." index="11"]
 _max_value = 10.0
 _value = 10.0
 
-[node name="Look" parent="." index="14"]
+[node name="Concentration" parent="." index="12"]
+_max_value = 10.0
+_value = 10.0
+
+[node name="Look" parent="." index="13"]
 turn_speed_deg = 800.0
